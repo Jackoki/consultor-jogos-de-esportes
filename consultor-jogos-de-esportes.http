@@ -1,0 +1,6 @@
+@consultor_jogos_de_esportes_HostAddress = http://localhost:5173
+
+GET {{consultor_jogos_de_esportes_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
