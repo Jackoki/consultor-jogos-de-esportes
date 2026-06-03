@@ -1,25 +1,13 @@
-var builder = WebApplication.CreateBuilder(args);
+using consultor_jogos_de_esportes.Services;
 
-// Add services to the container.
+var client = new HttpClient();
+var f1Service = new F1Service(client);
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+var f1Events = await f1Service.GetMeetingsAsync(2026);
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+foreach (var f1Event in f1Events)
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    Console.WriteLine($"{f1Event.NameEvent}");
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+Console.ReadLine();
