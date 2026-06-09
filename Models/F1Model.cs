@@ -2,7 +2,7 @@
 
 namespace consultor_jogos_de_esportes.Models
 {
-    public class Formula1Events
+    public class F1Model
     {
         [JsonPropertyName("meeting_key")]
         public int Id { get; set; }

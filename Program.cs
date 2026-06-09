@@ -1,13 +1,10 @@
 using consultor_jogos_de_esportes.Services;
 
-var client = new HttpClient();
-var f1Service = new F1Service(client);
+var builder = WebApplication.CreateBuilder(args);
 
-var f1Events = await f1Service.GetMeetingsAsync(2026);
+builder.Services.AddControllers();
+builder.Services.AddHttpClient<F1Service>();
 
-foreach (var f1Event in f1Events)
-{
-    Console.WriteLine($"{f1Event.NameEvent}");
-}
-
-Console.ReadLine();
+var app = builder.Build();
+app.MapControllers();
+app.Run();

@@ -12,16 +12,16 @@ namespace consultor_jogos_de_esportes.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<Formula1Events>> GetMeetingsAsync(int year)
+        public async Task<List<F1Model>> GetMeetingsAsync(int year)
         {
             var response = await _httpClient.GetAsync($"https://api.openf1.org/v1/meetings?year={year}");
 
             if(!response.IsSuccessStatusCode)
-                return new List<Formula1Events>();
+                return new List<F1Model>();
 
             var json = await response.Content.ReadAsStringAsync();
 
-            return JsonSerializer.Deserialize<List<Formula1Events>>(json);
+            return JsonSerializer.Deserialize<List<F1Model>>(json);
         }
     }
 }
