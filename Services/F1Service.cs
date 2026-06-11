@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 using consultor_jogos_de_esportes.DTOs;
 using consultor_jogos_de_esportes.Interfaces;
 using consultor_jogos_de_esportes.Models;
@@ -18,8 +19,10 @@ namespace consultor_jogos_de_esportes.Services
         public async Task<List<SportEventModel>> GetEventsAsync(DTOFilterDates filter)
         {
             DateRange dates = GetDatesFilterF1Event(filter);
+            String urlApiF1 = BuildUrl(dates);
+            var f1Events = await FetchF1Events(urlApiF1);
 
-            return new List<SportEventModel>();
+            return MapToSportEvents(f1Events);
         }
 
         public DateRange GetDatesFilterF1Event(DTOFilterDates filter)
@@ -58,6 +61,35 @@ namespace consultor_jogos_de_esportes.Services
             }
 
             return new DateRange { StartDate = startDate, EndDate = endDate };
+        }
+
+        private string BuildUrl(DateRange dates)
+        {
+            return $"https://api.openf1.org/v1/meetings" + $"?date_start>={dates.StartDate:yyyy-MM-dd}" + $"&date_end<={dates.EndDate:yyyy-MM-dd}";
+        }
+
+        private async Task<List<F1Model>> FetchF1Events(string urlApiF1)
+        {
+            var responseApi = await _httpClient.GetAsync(urlApiF1);
+
+            if (!responseApi.IsSuccessStatusCode)
+                return new List<F1Model>();
+
+            var jsonApi = await responseApi.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<List<F1Model>>(jsonApi) ?? new List<F1Model>();
+        }
+
+        private List<SportEventModel> MapToSportEvents(List<F1Model> f1Events)
+        {
+            return f1Events.Select(m => new SportEventModel
+            {
+                SportName = "F1",
+                EventName = m.NameEvent,
+                BeginDate = m.DateTimeStart,
+                EndDate = m.DateTimeEnd,
+                Location = m.CountryName
+            }).ToList();
         }
     }
 }
