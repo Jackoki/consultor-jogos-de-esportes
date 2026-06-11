@@ -1,5 +1,6 @@
 ﻿
 
+using consultor_jogos_de_esportes.DTOs;
 using consultor_jogos_de_esportes.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +16,9 @@ namespace consultor_jogos_de_esportes.Controllers
         }
 
         [HttpGet("meetings/{year}")]
-        public async Task<IActionResult> GetEvents(int year)
+        public async Task<IActionResult> GetEvents([FromBody] DTOFilterDates filter)
         {
-            var result = await _f1Service.GetMeetingsAsync(year);
+            var result = await _f1Service.GetEventsAsync(filter);
 
             if(result == null)
                 return NotFound();

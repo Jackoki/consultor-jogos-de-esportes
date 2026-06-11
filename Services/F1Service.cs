@@ -1,9 +1,12 @@
 ﻿using System.Text.Json;
+using consultor_jogos_de_esportes.DTOs;
+using consultor_jogos_de_esportes.Interfaces;
 using consultor_jogos_de_esportes.Models;
+using consultor_jogos_de_esportes.Utils;
 
 namespace consultor_jogos_de_esportes.Services
 {
-    public class F1Service
+    public class F1Service : ISportService
     {
         private readonly HttpClient _httpClient;
 
@@ -12,16 +15,22 @@ namespace consultor_jogos_de_esportes.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<F1Model>> GetMeetingsAsync(int year)
+        public async Task<List<SportEventModel>> GetEventsAsync(DTOFilterDates filter)
         {
-            var response = await _httpClient.GetAsync($"https://api.openf1.org/v1/meetings?year={year}");
+            switch (filter.DateFilterType)
+            {
+                case DateFilterType.Today:
+                    return new List<SportEventModel>();
 
-            if(!response.IsSuccessStatusCode)
-                return new List<F1Model>();
+                case DateFilterType.Week:
+                    return new List<SportEventModel>();
 
-            var json = await response.Content.ReadAsStringAsync();
+                case DateFilterType.SpecificDate:
+                    return new List<SportEventModel>();
 
-            return JsonSerializer.Deserialize<List<F1Model>>(json);
+                default:
+                    throw new ArgumentException("Data não válida para filtragem");
+            }
         }
     }
 }
