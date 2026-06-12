@@ -1,0 +1,168 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|c:\\users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|c:\\users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\utils\\datefiltertype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|solutionrelative:utils\\datefiltertype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|c:\\users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\services\\f1service.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|solutionrelative:services\\f1service.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|c:\\users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\models\\f1model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|solutionrelative:models\\f1model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|c:\\users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\models\\sporteventmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|solutionrelative:models\\sporteventmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|c:\\users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\interfaces\\isportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|solutionrelative:interfaces\\isportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|c:\\users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\dtos\\dtofilterdates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|solutionrelative:dtos\\dtofilterdates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|c:\\users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\controllers\\f1controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE268224-6FF3-44A4-BB0B-E6BA5D3370F3}|consultor-jogos-de-esportes.csproj|solutionrelative:controllers\\f1controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "F1Model.cs",
+              "DocumentMoniker": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\Models\\F1Model.cs",
+              "RelativeDocumentMoniker": "Models\\F1Model.cs",
+              "ToolTip": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\Models\\F1Model.cs",
+              "RelativeToolTip": "Models\\F1Model.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-11T00:14:00.667Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SportEventModel.cs",
+              "DocumentMoniker": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\Models\\SportEventModel.cs",
+              "RelativeDocumentMoniker": "Models\\SportEventModel.cs",
+              "ToolTip": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\Models\\SportEventModel.cs",
+              "RelativeToolTip": "Models\\SportEventModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-10T23:33:00.48Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ISportService.cs",
+              "DocumentMoniker": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\Interfaces\\ISportService.cs",
+              "RelativeDocumentMoniker": "Interfaces\\ISportService.cs",
+              "ToolTip": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\Interfaces\\ISportService.cs",
+              "RelativeToolTip": "Interfaces\\ISportService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-10T23:32:16.236Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DTOFilterDates.cs",
+              "DocumentMoniker": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\DTOs\\DTOFilterDates.cs",
+              "RelativeDocumentMoniker": "DTOs\\DTOFilterDates.cs",
+              "ToolTip": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\DTOs\\DTOFilterDates.cs",
+              "RelativeToolTip": "DTOs\\DTOFilterDates.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAYAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-10T23:26:36.365Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "F1Controller.cs",
+              "DocumentMoniker": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\Controllers\\F1Controller.cs",
+              "RelativeDocumentMoniker": "Controllers\\F1Controller.cs",
+              "ToolTip": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\Controllers\\F1Controller.cs",
+              "RelativeToolTip": "Controllers\\F1Controller.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-10T23:26:31.109Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-10T23:26:20.882Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "F1Service.cs",
+              "DocumentMoniker": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\Services\\F1Service.cs",
+              "RelativeDocumentMoniker": "Services\\F1Service.cs",
+              "ToolTip": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\Services\\F1Service.cs",
+              "RelativeToolTip": "Services\\F1Service.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAwwBEAAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-10T23:25:04.484Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DateFilterType.cs",
+              "DocumentMoniker": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\Utils\\DateFilterType.cs",
+              "RelativeDocumentMoniker": "Utils\\DateFilterType.cs",
+              "ToolTip": "C:\\Users\\kenji\\source\\repos\\consultor-jogos-de-esportes\\Utils\\DateFilterType.cs",
+              "RelativeToolTip": "Utils\\DateFilterType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-10T23:25:03.765Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
