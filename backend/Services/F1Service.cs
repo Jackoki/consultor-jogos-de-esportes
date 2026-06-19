@@ -19,10 +19,50 @@ namespace consultor_jogos_de_esportes.Services
         public async Task<List<SportEventModel>> GetEventsAsync(DTOFilterDates filter)
         {
             DateRange dates = GetDatesFilterF1Event(filter);
-            String urlApiF1 = BuildUrl(dates);
+            String urlApiF1 = BuildUrl(dates, filter.DateFilterType);
             var f1Events = await FetchF1Events(urlApiF1);
+            f1Events = FilterEventsByDate(f1Events, filter);
 
             return MapToSportEvents(f1Events);
+        }
+
+        private List<F1Model> FilterEventsByDate(List<F1Model> events, DTOFilterDates filter)
+        {
+            switch (filter.DateFilterType)
+            {
+                case DateFilterType.Today:
+                    {
+                        var today = DateTime.UtcNow.Date;
+
+                        return events.Where(e =>
+                            e.DateTimeStart.Date <= today &&
+                            e.DateTimeEnd.Date >= today)
+                            .ToList();
+                    }
+
+                case DateFilterType.SpecificDate:
+                    {
+                        var date = filter.Date!.Value.Date;
+
+                        return events.Where(e =>
+                            e.DateTimeStart.Date <= date &&
+                            e.DateTimeEnd.Date >= date)
+                            .ToList();
+                    }
+
+                case DateFilterType.Week:
+                    {
+                        DateRange weekRange = GetDatesFilterF1Event(filter);
+
+                        return events.Where(e =>
+                            e.DateTimeStart.Date <= weekRange.EndDate &&
+                            e.DateTimeEnd.Date >= weekRange.StartDate)
+                            .ToList();
+                    }
+
+                default:
+                    return events;
+            }
         }
 
         public DateRange GetDatesFilterF1Event(DTOFilterDates filter)
@@ -63,9 +103,14 @@ namespace consultor_jogos_de_esportes.Services
             return new DateRange { StartDate = startDate, EndDate = endDate };
         }
 
-        private string BuildUrl(DateRange dates)
+        private string BuildUrl(DateRange dates, DateFilterType filterType)
         {
-            return $"https://api.openf1.org/v1/meetings" + $"?date_start>={dates.StartDate:yyyy-MM-dd}" + $"&date_end<={dates.EndDate:yyyy-MM-dd}";
+            if (filterType == DateFilterType.SpecificDate || filterType == DateFilterType.Today)
+            {
+                return $"https://api.openf1.org/v1/meetings" + $"?date_start<={dates.StartDate:yyyy-MM-dd}" + $"&date_end>={dates.StartDate:yyyy-MM-dd}";
+            }
+
+            return $"https://api.openf1.org/v1/meetings" + $"?date_start<={dates.EndDate:yyyy-MM-dd}" + $"&date_end>={dates.StartDate:yyyy-MM-dd}";
         }
 
         private async Task<List<F1Model>> FetchF1Events(string urlApiF1)
