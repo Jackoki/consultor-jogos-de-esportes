@@ -18,12 +18,19 @@ namespace consultor_jogos_de_esportes.Controllers
         [HttpPost("meetings")]
         public async Task<IActionResult> GetEvents([FromBody] DTOFilterDates filter)
         {
-            var result = await _f1Service.GetEventsAsync(filter);
+            try
+            {
+                var result = await _f1Service.GetEventsAsync(filter);
+                return Ok(result);
+            }
 
-            if(result == null)
-                return NotFound();
-
-            return Ok(result);
+            catch(ArgumentException ex)
+            {
+                return BadRequest(new
+                {
+                    message = ex.Message
+                });
+            }  
         }
 
     }
