@@ -79,7 +79,7 @@ namespace consultor_jogos_de_esportes.Services
 
                 case DateFilterType.Week:
                     if (!filter.Date.HasValue)
-                        throw new ArgumentException("Date é obrigatória para SpecificDate");
+                        throw new ArgumentException("Não foi informado a data para a busca por semana");
 
                     var date = filter.Date.Value.Date;
                     int differenceDaysToBeginOfTheWeek = (int)date.DayOfWeek;
@@ -90,7 +90,7 @@ namespace consultor_jogos_de_esportes.Services
 
                 case DateFilterType.SpecificDate:
                     if (!filter.Date.HasValue)
-                        throw new ArgumentException("Date é obrigatória para SpecificDate");
+                        throw new ArgumentException("Não foi informado a data para a busca do dia específico");
 
                     startDate = filter.Date.Value.Date;
                     endDate = startDate.AddDays(1);
