@@ -1,57 +1,55 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import dayjs from "dayjs";
-import fs from "fs";
 
-fs.writeFileSync("fide-debug.html", html);
-
-const FIDE_URL =
-  "https://calendar.fide.com/majorcalendar.php?name_filter=&from_date=2025-01-01&to_date=2026-01-01&country=all&show=showYear&page=2025&cat_filter=wfe%2Cwte&cat_cont=0&event_type=all&time_control=all";
+const FIDE_URL = "https://calendar.fide.com/calendar_server.php";
 
 export async function scrapeFideCalendar() {
-  const { data: html } = await axios.get(FIDE_URL, {
+  const body = new URLSearchParams();
+
+  body.append("country", "all");
+  body.append("name_filter", "");
+  body.append("event_type", "all");
+  body.append("page", "2025");
+  body.append("cat_filter[]", "wfe");
+  body.append("cat_filter[]", "wte");
+  body.append("cat_cont[]", "0");
+  body.append("id", "");
+  body.append("show", "showYear");
+
+  const { data: html } = await axios.post(FIDE_URL, body, {
     headers: {
+      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+      "X-Requested-With": "XMLHttpRequest",
+      "Referer":
+        "https://calendar.fide.com/majorcalendar.php?page=2025&show=showYear",
       "User-Agent": "Mozilla/5.0"
     }
   });
 
-  console.log("HTML size:", html.length);
-  console.log("has table:", html.includes("<table"));
-  console.log("has tr:", html.includes("<tr"));
-
   const $ = cheerio.load(html);
-
-  console.log("tables:", $("table").length);
-  console.log("trs total:", $("tr").length);
-  console.log("td total:", $("td").length);
 
   const events = [];
 
-  $("table").each((_, table) => {
-    $(table)
-      .find("tr")
-      .each((_, row) => {
-        const cols = $(row).find("td");
+  $(".border-info").each((_, el) => {
+    const anchor = $(el).find(".session-title a");
 
-        if (cols.length < 3) return;
+    const name = anchor.text().trim();
+    let link = anchor.attr("href");
 
-        const name = $(cols[0]).text().trim();
-        const dateRaw = $(cols[1]).text().trim();
-        const location = $(cols[2]).text().trim();
+    const time = $(el).find(".session-time").first().text().trim();
 
-        if (!name || !dateRaw) return;
+    if (!name) return;
 
-        const { startDate, endDate } = parseDateRange(dateRaw);
+    if (link && !link.startsWith("http")) {
+      link = `https://calendar.fide.com/${link}`;
+    }
 
-        events.push({
-          name,
-          dateRaw,
-          location,
-          startDate,
-          endDate,
-          source: "fide"
-        });
-      });
+    events.push({
+      name,
+      link,
+      time,
+      source: "fide"
+    });
   });
 
   return events;
