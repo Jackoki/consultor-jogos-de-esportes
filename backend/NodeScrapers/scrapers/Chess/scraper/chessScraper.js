@@ -8,6 +8,9 @@ export async function scrapeFideCalendar({ date_start, date_end }) {
     if (!date_start || !date_end) {
         throw new Error("Datas da filtragem são obrigatórias.");
     }
+    
+    date_start = new Date(date_start);
+    date_end = new Date(date_end);
 
     const years = getYearsBetween(date_start, date_end);
 
