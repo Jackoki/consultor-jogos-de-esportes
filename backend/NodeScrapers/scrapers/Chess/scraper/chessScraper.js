@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
+import { getCountryName } from "../../../utils/countryHelper.js";
 
 const FIDE_URL = "https://calendar.fide.com/calendar_server.php";
 const BASE_URL = "https://calendar.fide.com";
@@ -138,6 +139,6 @@ function parseEventInfo(text, year) {
         date_start: new Date(startYear, startMonth, startDay),
         date_end: new Date(endYear, endMonth, endDay),
         city: match[5].trim(),
-        country: match[6].trim()
+        country: getCountryName(match[6])
     };
 }
