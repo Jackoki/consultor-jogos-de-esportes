@@ -85,7 +85,7 @@ function parseCalendar(html, year) {
 
         const info = parseEventInfo(time, year);
 
-        events.push({name, link, date_start: info.date_start, date_end: info.date_end, city: info.city, country_name: info.country, year: year});
+        events.push({name, link, date_start: info.date_start, date_end: info.date_end, country_name: info.country, year: year});
     });
 
     return events;
