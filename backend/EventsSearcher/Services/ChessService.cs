@@ -37,7 +37,7 @@ namespace consultor_jogos_de_esportes.Services
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("http://localhost:3000/events", content);
+            var response = await _httpClient.PostAsync("http://localhost:3000/chess/events", content);
 
             if (!response.IsSuccessStatusCode)
                 return new List<ChessModel>();

@@ -19,7 +19,7 @@ export function FilterForm({ setEvents }: any) {
         };
 
         try {
-            const response = await api.post("/f1/meetings", payload);
+            const response = await api.post("/events", payload);
             setEvents(response.data);
         }
 

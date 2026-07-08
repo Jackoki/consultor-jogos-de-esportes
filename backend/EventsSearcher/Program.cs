@@ -1,3 +1,4 @@
+using consultor_jogos_de_esportes.Interfaces;
 using consultor_jogos_de_esportes.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddHttpClient<F1Service>();
+builder.Services.AddHttpClient<ChessService>();
+
+builder.Services.AddScoped<ISportService>(sp =>sp.GetRequiredService<F1Service>());
+builder.Services.AddScoped<ISportService>(sp => sp.GetRequiredService<ChessService>());
 
 builder.Services.AddCors(options =>
 {
