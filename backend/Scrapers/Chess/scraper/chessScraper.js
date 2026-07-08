@@ -4,12 +4,12 @@ import * as cheerio from "cheerio";
 const FIDE_URL = "https://calendar.fide.com/calendar_server.php";
 const BASE_URL = "https://calendar.fide.com";
 
-export async function scrapeFideCalendar({ startDate, endDate }) {
-    if (!startDate || !endDate) {
+export async function scrapeFideCalendar({ date_start, date_end }) {
+    if (!date_start || !date_end) {
         throw new Error("Datas da filtragem são obrigatórias.");
     }
 
-    const years = getYearsBetween(startDate, endDate);
+    const years = getYearsBetween(date_start, date_end);
 
     const events = [];
 
@@ -19,19 +19,14 @@ export async function scrapeFideCalendar({ startDate, endDate }) {
     }
 
     return events.filter(event =>
-        event.startDate <= endDate &&
-        event.endDate >= startDate
+        event.date_start <= date_end && event.date_end >= date_start
     );
 }
 
-function getYearsBetween(startDate, endDate) {
+function getYearsBetween(date_start, date_end) {
     const years = [];
 
-    for (
-        let year = startDate.getFullYear();
-        year <= endDate.getFullYear();
-        year++
-    ) {
+    for (let year = date_start.getFullYear(); year <= date_end.getFullYear(); year++) {
         years.push(year);
     }
 
@@ -88,30 +83,23 @@ function parseCalendar(html, year) {
             .text()
             .trim();
 
-        const dates = parseDates(time, year);
+        const info = parseEventInfo(time, year);
 
-        events.push({
-            name,
-            link,
-            time,
-            startDate: dates.startDate,
-            endDate: dates.endDate,
-            source: "fide"
-        });
+        events.push({name, link, date_start: info.date_start, date_end: info.date_end, city: info.city, country_name: info.country, year: year});
     });
 
     return events;
 }
 
-function parseDates(text, year) {
-    const match = text.match(
-        /(\d{1,2}) (\w{3}) - (\d{1,2}) (\w{3})/
-    );
+function parseEventInfo(text, year) {
+    const match = text.match(/(\d{1,2}) (\w{3}) - (\d{1,2}) (\w{3})\s*\/\s*(.+?)\s*\(([^)]+)\)/);
 
     if (!match) {
         return {
-            startDate: null,
-            endDate: null
+            date_start: null,
+            date_end: null,
+            city: null,
+            country: null
         };
     }
 
@@ -144,7 +132,9 @@ function parseDates(text, year) {
     }
 
     return {
-        startDate: new Date(startYear, startMonth, startDay),
-        endDate: new Date(endYear, endMonth, endDay)
+        date_start: new Date(startYear, startMonth, startDay),
+        date_end: new Date(endYear, endMonth, endDay),
+        city: match[5].trim(),
+        country: match[6].trim()
     };
 }
