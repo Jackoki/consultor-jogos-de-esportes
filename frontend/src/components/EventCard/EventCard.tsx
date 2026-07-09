@@ -1,3 +1,4 @@
+import "./EventCard.css";
 import type { SportEvent } from "../../types/SportEvent";
 
 interface Props {
@@ -6,13 +7,8 @@ interface Props {
 
 export function EventCard({ event }: Props) {
     return (
-        <div>
+        <div className="event-card">
             <h3>{event.eventName}</h3>
-
-            <p>
-                <strong>Esporte:</strong> {event.sportName}
-            </p>
-
             <p>
                 <strong>Local:</strong> {event.location}
             </p>
