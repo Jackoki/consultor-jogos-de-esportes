@@ -133,7 +133,8 @@ namespace consultor_jogos_de_esportes.Services
                 EventName = m.NameEvent,
                 BeginDate = DateTimeUtils.ToBrazilTime(m.DateTimeStart),
                 EndDate = DateTimeUtils.ToBrazilTime(m.DateTimeEnd),
-                Location = CountryHelper.GetCountryName(m.CountryName)
+                Location = CountryHelper.GetCountryName(m.CountryName),
+                HasTime = true
             }).ToList();
         }
     }

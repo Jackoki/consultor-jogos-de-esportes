@@ -1,5 +1,6 @@
 import "./EventCard.css";
 import type { SportEvent } from "../../types/SportEvent";
+import { formatDate } from "../../utils/dateUtils";
 
 interface Props {
     event: SportEvent;
@@ -14,11 +15,11 @@ export function EventCard({ event }: Props) {
             </p>
 
             <p>
-                <strong>Início:</strong> {event.beginDate}
+                <strong>Início:</strong> {formatDate(event.beginDate, event.hasTime)}
             </p>
 
             <p>
-                <strong>Fim:</strong> {event.endDate}
+                <strong>Início:</strong> {formatDate(event.endDate, event.hasTime)}
             </p>
         </div>
     );

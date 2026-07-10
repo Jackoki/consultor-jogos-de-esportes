@@ -7,5 +7,6 @@
         public DateTime BeginDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string? Location { get; set; }
+        public bool HasTime { get; set; }
     }
 }

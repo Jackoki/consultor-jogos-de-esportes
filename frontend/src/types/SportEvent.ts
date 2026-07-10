@@ -4,4 +4,5 @@ export interface SportEvent {
     beginDate: string;
     endDate: string;
     location: string;
+    hasTime: boolean;
 }
