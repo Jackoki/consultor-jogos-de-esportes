@@ -131,9 +131,9 @@ namespace consultor_jogos_de_esportes.Services
             {
                 SportName = "F1",
                 EventName = m.NameEvent,
-                BeginDate = m.DateTimeStart,
-                EndDate = m.DateTimeEnd,
-                Location = m.CountryName
+                BeginDate = DateTimeUtils.ToBrazilTime(m.DateTimeStart),
+                EndDate = DateTimeUtils.ToBrazilTime(m.DateTimeEnd),
+                Location = CountryHelper.GetCountryName(m.CountryName)
             }).ToList();
         }
     }

@@ -53,8 +53,8 @@ namespace consultor_jogos_de_esportes.Services
             {
                 SportName = "Xadrez",
                 EventName = e.NameEvent,
-                BeginDate = e.DateTimeStart,
-                EndDate = e.DateTimeEnd,
+                BeginDate = DateTimeUtils.ToBrazilTime(e.DateTimeStart),
+                EndDate = DateTimeUtils.ToBrazilTime(e.DateTimeEnd),
                 Location = e.CountryName
             }).ToList();
         }
