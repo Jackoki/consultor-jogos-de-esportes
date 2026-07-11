@@ -7,4 +7,4 @@ namespace consultor_jogos_de_esportes.DTOs.NCAA
         [JsonPropertyName("game")]
         public NCAABaseballModel Game { get; set; } = new();
     }
-}}
+}
