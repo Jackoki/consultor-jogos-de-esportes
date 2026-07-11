@@ -7,9 +7,11 @@ builder.Services.AddControllers();
 
 builder.Services.AddHttpClient<F1Service>();
 builder.Services.AddHttpClient<ChessService>();
+builder.Services.AddHttpClient<BaseballService>();
 
 builder.Services.AddScoped<ISportService>(sp =>sp.GetRequiredService<F1Service>());
 builder.Services.AddScoped<ISportService>(sp => sp.GetRequiredService<ChessService>());
+builder.Services.AddScoped<ISportService>(sp => sp.GetRequiredService<BaseballService>());
 
 builder.Services.AddCors(options =>
 {

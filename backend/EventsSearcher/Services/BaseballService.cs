@@ -52,6 +52,12 @@ namespace consultor_jogos_de_esportes.Services
             if (filterType == DateFilterType.Today || filterType == DateFilterType.SpecificDate)
             {
                 return $"https://api.openf1.org/v1/meetings" + $"?date_start<={dates.StartDate:yyyy-MM-dd}" + $"&date_end>={dates.StartDate:yyyy-MM-dd}";
+                         //https://statsapi.mlb.com/api/v1/schedule?sportId=1&startDate=2026-04-01&endDate=2026-04-30
+                         //1 = MLB
+                         //22 = College Games
+                         //31 = Japan Games
+                         //32 = Korean Games
+                         //51 = International Games
             }
 
             return $"https://api.openf1.org/v1/meetings" + $"?date_start<={dates.EndDate:yyyy-MM-dd}" + $"&date_end>={dates.StartDate:yyyy-MM-dd}";
