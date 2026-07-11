@@ -2,6 +2,7 @@
 
 using consultor_jogos_de_esportes.DTOs;
 using consultor_jogos_de_esportes.Services;
+using consultor_jogos_de_esportes.Services.Baseball;
 using Microsoft.AspNetCore.Mvc;
 
 namespace consultor_jogos_de_esportes.Controllers

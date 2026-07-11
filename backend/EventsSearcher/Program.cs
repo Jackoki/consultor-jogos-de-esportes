@@ -1,5 +1,6 @@
 using consultor_jogos_de_esportes.Interfaces;
 using consultor_jogos_de_esportes.Services;
+using consultor_jogos_de_esportes.Services.Baseball;
 
 var builder = WebApplication.CreateBuilder(args);
 
