@@ -10,11 +10,14 @@ builder.Services.AddHttpClient<F1Service>();
 builder.Services.AddHttpClient<ChessService>();
 builder.Services.AddHttpClient<MLBService>();
 builder.Services.AddHttpClient<NCAAService>();
-builder.Services.AddHttpClient<BaseballService>();
 
-builder.Services.AddScoped<ISportService>(sp =>sp.GetRequiredService<F1Service>());
-builder.Services.AddScoped<ISportService>(sp => sp.GetRequiredService<ChessService>()); 
-builder.Services.AddScoped<ISportService>(sp => sp.GetRequiredService<BaseballService>());
+builder.Services.AddScoped<F1Service>();
+builder.Services.AddScoped<ChessService>();
+builder.Services.AddScoped<BaseballService>();
+
+builder.Services.AddScoped<ISportService, F1Service>();
+builder.Services.AddScoped<ISportService, ChessService>();
+builder.Services.AddScoped<ISportService, BaseballService>();
 
 builder.Services.AddCors(options =>
 {

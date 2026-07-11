@@ -1,4 +1,5 @@
-﻿using consultor_jogos_de_esportes.DTOs;
+﻿using System;
+using consultor_jogos_de_esportes.DTOs;
 using consultor_jogos_de_esportes.Models;
 using consultor_jogos_de_esportes.Models.Baseball;
 using consultor_jogos_de_esportes.Utils;
@@ -15,8 +16,9 @@ namespace consultor_jogos_de_esportes.Services.Baseball
         public override async Task<List<SportEventModel>> GetEventsAsync(DTOFilterDates filter)
         {
             var dates = GetDatesFilter(filter);
-            var url = BuildUrl(dates, filter.DateFilterType);
-            var baseballEvents = await GetAsync<List<MLBModel>>(url) ?? new List<MLBModel>();
+            var url = BuildUrl(dates, filter.DateFilterType); 
+            var response = await GetAsync<MLBResponse>(url);
+            var baseballEvents = response?.Dates.SelectMany(x => x.Games).ToList() ?? new List<MLBModel>();
             baseballEvents = FilterEventsByDate(baseballEvents, filter);
             return MapToSportEvents(baseballEvents);
         }
@@ -50,12 +52,7 @@ namespace consultor_jogos_de_esportes.Services.Baseball
 
         private string BuildUrl(DateRange dates, DateFilterType filterType)
         {
-            if (filterType == DateFilterType.Today || filterType == DateFilterType.SpecificDate)
-            {
-                return $"https://statsapi.mlb.com/api/v1/schedule?sportId=1" + $"?&startDate<={dates.StartDate:yyyy-MM-dd}" + $"&endDate>={dates.StartDate:yyyy-MM-dd}";
-            }
-
-            return $"https://statsapi.mlb.com/api/v1/schedule?sportId=1" + $"?&startDate<={dates.EndDate:yyyy-MM-dd}" + $"&endDate>={dates.StartDate:yyyy-MM-dd}";
+            return $"https://statsapi.mlb.com/api/v1/schedule?sportId=1" + $"&startDate={dates.StartDate:yyyy-MM-dd}" + $"&endDate={dates.EndDate:yyyy-MM-dd}";
         }
 
         private List<SportEventModel> MapToSportEvents(List<MLBModel> baseballEvents)
@@ -66,7 +63,7 @@ namespace consultor_jogos_de_esportes.Services.Baseball
                 EventName = m.NameEvent,
                 BeginDate = DateTimeUtils.ToBrazilTime(m.DateTimeStart),
                 EndDate = DateTimeUtils.ToBrazilTime(m.DateTimeEnd),
-                Location = CountryHelper.GetCountryName(m.CountryName),
+                Location = CountryHelper.GetCountryName(m.Venue.Name),
                 HasTime = true
             }).ToList();
         }
