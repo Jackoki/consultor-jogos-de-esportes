@@ -1,5 +1,6 @@
 ﻿using consultor_jogos_de_esportes.DTOs;
 using consultor_jogos_de_esportes.Models;
+using consultor_jogos_de_esportes.Models.Baseball;
 using consultor_jogos_de_esportes.Utils;
 
 namespace consultor_jogos_de_esportes.Services.Baseball
@@ -15,12 +16,12 @@ namespace consultor_jogos_de_esportes.Services.Baseball
         {
             var dates = GetDatesFilter(filter);
             var url = BuildUrl(dates, filter.DateFilterType);
-            var baseballEvents = await GetAsync<List<BaseballModel>>(url) ?? new List<BaseballModel>();
+            var baseballEvents = await GetAsync<List<MLBModel>>(url) ?? new List<MLBModel>();
             baseballEvents = FilterEventsByDate(baseballEvents, filter);
             return MapToSportEvents(baseballEvents);
         }
 
-        private List<BaseballModel> FilterEventsByDate(List<BaseballModel> events, DTOFilterDates filter)
+        private List<MLBModel> FilterEventsByDate(List<MLBModel> events, DTOFilterDates filter)
         {
             switch (filter.DateFilterType)
             {
@@ -57,7 +58,7 @@ namespace consultor_jogos_de_esportes.Services.Baseball
             return $"https://statsapi.mlb.com/api/v1/schedule?sportId=1" + $"?&startDate<={dates.EndDate:yyyy-MM-dd}" + $"&endDate>={dates.StartDate:yyyy-MM-dd}";
         }
 
-        private List<SportEventModel> MapToSportEvents(List<BaseballModel> baseballEvents)
+        private List<SportEventModel> MapToSportEvents(List<MLBModel> baseballEvents)
         {
             return baseballEvents.Select(m => new SportEventModel
             {

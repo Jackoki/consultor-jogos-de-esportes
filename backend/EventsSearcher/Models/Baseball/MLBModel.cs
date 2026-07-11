@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace consultor_jogos_de_esportes.Models
+namespace consultor_jogos_de_esportes.Models.Baseball
 {
-    public class BaseballModel
+    public class MLBModel
     {
         [JsonPropertyName("meeting_key")]
         public int Id { get; set; }
