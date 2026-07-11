@@ -4,9 +4,9 @@ using consultor_jogos_de_esportes.Utils;
 
 namespace consultor_jogos_de_esportes.Services
 {
-    public class F1Service : ApiSportService
+    public class BaseballService : ApiSportService
     {
-        public F1Service(HttpClient httpClient) : base(httpClient)
+        public BaseballService(HttpClient httpClient) : base(httpClient)
         {
 
         }
@@ -15,12 +15,12 @@ namespace consultor_jogos_de_esportes.Services
         {
             var dates = GetDatesFilter(filter);
             var url = BuildUrl(dates, filter.DateFilterType);
-            var f1Events = await GetAsync<List<F1Model>>(url) ?? new List<F1Model>();
-            f1Events = FilterEventsByDate(f1Events, filter);
-            return MapToSportEvents(f1Events);
+            var baseballEvents = await GetAsync<List<BaseballModel>>(url) ?? new List<BaseballModel>();
+            baseballEvents = FilterEventsByDate(baseballEvents, filter);
+            return MapToSportEvents(baseballEvents);
         }
 
-        private List<F1Model> FilterEventsByDate(List<F1Model> events, DTOFilterDates filter)
+        private List<BaseballModel> FilterEventsByDate(List<BaseballModel> events, DTOFilterDates filter)
         {
             switch (filter.DateFilterType)
             {
@@ -57,11 +57,11 @@ namespace consultor_jogos_de_esportes.Services
             return $"https://api.openf1.org/v1/meetings" + $"?date_start<={dates.EndDate:yyyy-MM-dd}" + $"&date_end>={dates.StartDate:yyyy-MM-dd}";
         }
 
-        private List<SportEventModel> MapToSportEvents(List<F1Model> f1Events)
+        private List<SportEventModel> MapToSportEvents(List<BaseballModel> baseballEvents)
         {
-            return f1Events.Select(m => new SportEventModel
+            return baseballEvents.Select(m => new SportEventModel
             {
-                SportName = "F1",
+                SportName = "Beisebol",
                 EventName = m.NameEvent,
                 BeginDate = DateTimeUtils.ToBrazilTime(m.DateTimeStart),
                 EndDate = DateTimeUtils.ToBrazilTime(m.DateTimeEnd),
