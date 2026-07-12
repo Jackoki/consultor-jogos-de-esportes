@@ -18,7 +18,7 @@ namespace consultor_jogos_de_esportes.Services.Baseball
             var dates = GetDatesFilter(filter);
             var url = BuildUrl(dates, filter.DateFilterType); 
             var response = await GetAsync<MLBResponse>(url);
-            var baseballEvents = response?.Dates.SelectMany(x => x.Games).ToList() ?? new List<MLBModel>();
+            var baseballEvents = response?.Dates.SelectMany(x => x.Games).GroupBy(x => x.GamePk).Select(x => x.First()).ToList() ?? new List<MLBModel>();
             baseballEvents = FilterEventsByDate(baseballEvents, filter);
             return MapToSportEvents(baseballEvents);
         }
@@ -36,7 +36,7 @@ namespace consultor_jogos_de_esportes.Services.Baseball
                 case DateFilterType.SpecificDate:
                 {
                     var date = filter.Date!.Value.Date;
-                    return events.Where(e => e.DateTimeStart.Date <= date && e.DateTimeEnd.Date >= date).ToList();
+                    return events.Where(e => e.DateTimeStart.Date == date || e.DateTimeEnd.Date == date).ToList();
                 }
 
                 case DateFilterType.Week:

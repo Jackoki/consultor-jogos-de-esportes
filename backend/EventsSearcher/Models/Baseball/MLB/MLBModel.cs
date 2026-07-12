@@ -20,7 +20,7 @@ namespace consultor_jogos_de_esportes.Models.Baseball
 
         public DateTime DateTimeEnd => GameDate.AddHours(4);
 
-        public string NameEvent =>$"{Teams.Away.Team.Name} x {Teams.Home.Team.Name}";
+        public string NameEvent =>$"MLB - {Teams.Away.Team.Name} x {Teams.Home.Team.Name}";
 
         public string CountryName => "USA";
     }
