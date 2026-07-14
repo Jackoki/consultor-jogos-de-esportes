@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
+import { getTeamName } from "../../../../utils/npbTeamsHelper.js";
 
 const BASE_URL = "https://npb.jp";
 
@@ -114,11 +115,8 @@ function parseGame($, gameNode, year, month, day) {
         }
 
         return {
-            name: `${away} @ ${home}`,
-            home_team: home,
-            away_team: away,
-            date: new Date(year, month - 1, day),
-            start_time: time
+            name: `${getTeamName(away)} x ${getTeamName(home)}`,
+            date: new Date(year, month - 1, day)
         };
     }
 
@@ -134,9 +132,7 @@ function parseGame($, gameNode, year, month, day) {
         }
 
         return {
-            name: `${away} @ ${home}`,
-            home_team: home,
-            away_team: away,
+            name: `${getTeamName(away)} x ${getTeamName(home)}`,
             date: new Date(year, month - 1, day)
         };
     }

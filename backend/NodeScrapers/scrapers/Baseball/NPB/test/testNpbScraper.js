@@ -13,8 +13,6 @@ async function test() {
         events.forEach((event, index) => {
             console.log(`Jogo ${index + 1}`);
             console.log("Nome:", event.name);
-            console.log("Casa:", event.home_team);
-            console.log("Fora:", event.away_team);
             console.log("Data:", event.date);
         });
     } 
