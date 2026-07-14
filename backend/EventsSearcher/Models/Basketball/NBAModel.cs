@@ -4,12 +4,6 @@ namespace consultor_jogos_de_esportes.Models.Baseball
 {
     public class NBAModel
     {
-        [JsonPropertyName("events")]
-        public List<NBAEvent> Events { get; set; } = new();
-    }
-
-    public class NBAEvent
-    {
         [JsonPropertyName("competitions")]
         public List<NBACompetition> Competitions { get; set; } = new();
     }
@@ -43,12 +37,16 @@ namespace consultor_jogos_de_esportes.Models.Baseball
 
     public class NBACompetitor
     {
+        [JsonPropertyName("homeAway")]
+        public string HomeAway { get; set; } = "";
+
         [JsonPropertyName("team")]
         public NBATeam Team { get; set; } = new();
     }
+
     public class NBATeam
     {
         [JsonPropertyName("displayName")]
-        public string displayName { get; set; }
+        public string DisplayName { get; set; } = "";
     }
 }
