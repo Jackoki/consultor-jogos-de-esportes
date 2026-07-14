@@ -118,12 +118,7 @@ function parseGame($, gameNode, year, month, day) {
             home_team: home,
             away_team: away,
             date: new Date(year, month - 1, day),
-            start_time: time,
-            stadium: "",
-            country_name: "Japan",
-            home_score: null,
-            away_score: null,
-            link
+            start_time: time
         };
     }
 
@@ -142,13 +137,7 @@ function parseGame($, gameNode, year, month, day) {
             name: `${away} @ ${home}`,
             home_team: home,
             away_team: away,
-            date: new Date(year, month - 1, day),
-            start_time: "",
-            stadium: "",
-            country_name: "Japan",
-            home_score: homeScore === "*" ? null : Number(homeScore),
-            away_score: awayScore === "*" ? null : Number(awayScore),
-            link
+            date: new Date(year, month - 1, day)
         };
     }
     

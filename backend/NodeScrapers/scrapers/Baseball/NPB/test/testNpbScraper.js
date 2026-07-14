@@ -1,11 +1,11 @@
-import { scrapeNpbCalendar } from "../scraper/npbCalendar.js";
+import { scrapeNpbCalendar } from "../scraper/npbScraper.js";
 
 
 async function test() {
     try {
         const events = await scrapeNpbCalendar({
             date_start: "2026-07-01",
-            date_end: "2026-07-31"
+            date_end: "2026-07-05"
         });
 
         console.log(`Total de jogos encontrados: ${events.length}`);
@@ -16,11 +16,6 @@ async function test() {
             console.log("Casa:", event.home_team);
             console.log("Fora:", event.away_team);
             console.log("Data:", event.date);
-            console.log("Horário:", event.start_time);
-            console.log("Placar casa:", event.home_score);
-            console.log("Placar fora:", event.away_score);
-            console.log("País:", event.country_name);
-            console.log("Link:", event.link);
         });
     } 
 
