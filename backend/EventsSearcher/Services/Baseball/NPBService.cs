@@ -52,7 +52,7 @@ namespace consultor_jogos_de_esportes.Services.Baseball
         {
             return events.Select(e => new SportEventModel
             {
-                SportName = "Baseball NCAA",
+                SportName = "Baseball NPB",
                 EventName = e.Name,
                 BeginDate = DateTimeUtils.ToBrazilTime(e.Date),
                 EndDate = DateTimeUtils.ToBrazilTime(e.Date),
