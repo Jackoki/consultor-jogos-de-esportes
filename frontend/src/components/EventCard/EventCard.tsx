@@ -19,7 +19,7 @@ export function EventCard({ event }: Props) {
             </p>
 
             <p>
-                <strong>Início:</strong> {formatDate(event.endDate, event.hasTime)}
+                <strong>Termino:</strong> {formatDate(event.endDate, event.hasTime)}
             </p>
         </div>
     );

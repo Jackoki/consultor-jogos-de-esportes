@@ -10,6 +10,7 @@ builder.Services.AddHttpClient<F1Service>();
 builder.Services.AddHttpClient<ChessService>();
 builder.Services.AddHttpClient<MLBService>();
 builder.Services.AddHttpClient<NCAAService>();
+builder.Services.AddHttpClient<NPBService>();
 
 builder.Services.AddScoped<F1Service>();
 builder.Services.AddScoped<ChessService>();

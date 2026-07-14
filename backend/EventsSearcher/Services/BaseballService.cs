@@ -10,19 +10,22 @@ namespace consultor_jogos_de_esportes.Services
     {
         private readonly MLBService _mlb;
         private readonly NCAAService _ncaa;
+        private readonly NPBService _npb;
 
-        public BaseballService(MLBService mlb, NCAAService ncaa)
+        public BaseballService(MLBService mlb, NCAAService ncaa, NPBService npb)
         {
             _mlb = mlb;
             _ncaa = ncaa;
+            _npb = npb;
         }
 
         public async Task<List<SportEventModel>> GetEventsAsync(DTOFilterDates filter)
         {
             var mlb = await _mlb.GetEventsAsync(filter);
             var ncaa = await _ncaa.GetEventsAsync(filter);
+            var npb = await _npb.GetEventsAsync(filter);
 
-            return mlb.Concat(ncaa).OrderBy(x => x.BeginDate).ToList();
+            return mlb.Concat(ncaa).Concat(npb).OrderBy(x => x.BeginDate).ToList();
         }
     }
 }
