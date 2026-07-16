@@ -10,9 +10,9 @@ namespace consultor_jogos_de_esportes.Controllers
     [Route("api/basketball")]
     public class BasketballController : ControllerBase
     {
-        private readonly BaseballService _basketballService;
+        private readonly BasketballService _basketballService;
 
-        public BasketballController(BaseballService basketballService)
+        public BasketballController(BasketballService basketballService)
         {
             this._basketballService = basketballService;
         }

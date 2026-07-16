@@ -78,7 +78,7 @@ namespace consultor_jogos_de_esportes.Services.Basketball
 
                 events.Add(new SportEventModel
                 {
-                    SportName = "Basquete",
+                    SportName = "Basquete NBA",
                     EventName = $"{away.Team.DisplayName} vs {home.Team.DisplayName}",
                     BeginDate = DateTimeUtils.ToBrazilTime(competition.Date),
                     EndDate = DateTimeUtils.ToBrazilTime(competition.Date),
