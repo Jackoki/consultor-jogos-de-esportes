@@ -1,28 +1,10 @@
-using consultor_jogos_de_esportes.Interfaces;
-using consultor_jogos_de_esportes.Services;
-using consultor_jogos_de_esportes.Services.Baseball;
-using consultor_jogos_de_esportes.Services.Basketball;
+using consultor_jogos_de_esportes.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-
-builder.Services.AddHttpClient<F1Service>();
-builder.Services.AddHttpClient<ChessService>();
-builder.Services.AddHttpClient<MLBService>();
-builder.Services.AddHttpClient<NCAAService>();
-builder.Services.AddHttpClient<NPBService>();
-builder.Services.AddHttpClient<NBAService>();
-
-builder.Services.AddScoped<F1Service>();
-builder.Services.AddScoped<ChessService>();
-builder.Services.AddScoped<BaseballService>();
-builder.Services.AddScoped<BasketballService>();
-
-builder.Services.AddScoped<ISportService, F1Service>();
-builder.Services.AddScoped<ISportService, ChessService>();
-builder.Services.AddScoped<ISportService, BaseballService>();
-builder.Services.AddScoped<ISportService, BasketballService>();
+builder.Services.AddSportServices();
+builder.Services.AddHealthChecksCustom();
 
 builder.Services.AddCors(options =>
 {

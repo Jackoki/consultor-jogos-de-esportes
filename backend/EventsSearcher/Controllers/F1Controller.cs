@@ -15,7 +15,7 @@ namespace consultor_jogos_de_esportes.Controllers
             this._f1Service = f1Service;
         }
 
-        [HttpPost("meetings")]
+        [HttpPost("events")]
         public async Task<IActionResult> GetEvents([FromBody] DTOFilterDates filter)
         {
             try

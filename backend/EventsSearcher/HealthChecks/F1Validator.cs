@@ -2,11 +2,10 @@
 
 namespace consultor_jogos_de_esportes.HealthChecks
 {
-    public class F1Validator
+    public class F1Validator : IApiValidator
     {
         private readonly HttpClient _httpClient;
-
-        public string Name = "F1";
+        public string Name => "F1";
 
         public F1Validator(HttpClient httpClient)
         {
