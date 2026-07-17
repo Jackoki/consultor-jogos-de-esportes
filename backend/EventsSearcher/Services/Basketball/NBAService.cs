@@ -15,16 +15,17 @@ namespace consultor_jogos_de_esportes.Services.Basketball
         public override async Task<List<SportEventModel>> GetEventsAsync(DTOFilterDates filter)
         {
             var dates = GetDatesFilter(filter);
-            var url = BuildUrl(dates);
-            var response = await GetAsync<NBAResponse>(url);
+            var urls = BuildUrls(dates, filter.DateFilterType);
+            var tasks = urls.Select(url => GetAsync<NBAResponse>(url));
+            var responses = await Task.WhenAll(tasks);
 
-            if (response == null)
-                return new List<SportEventModel>();
-
-            var competitions = response.Events.SelectMany(e => e.Competitions).ToList();
+            var competitions = responses
+                .Where(r => r != null)
+                .SelectMany(r => r!.Events)
+                .SelectMany(e => e.Competitions)
+                .ToList();
 
             competitions = FilterEventsByDate(competitions, filter);
-
             return MapToSportEvents(competitions);
         }
 
@@ -33,34 +34,48 @@ namespace consultor_jogos_de_esportes.Services.Basketball
             switch (filter.DateFilterType)
             {
                 case DateFilterType.Today:
-                    {
-                        var today = DateTime.UtcNow.Date;
+                {
+                    var today = DateTime.UtcNow.Date;
 
-                        return events.Where(e => e.Date.Date == today).ToList();
-                    }
+                    return events.Where(e => e.Date.Date == today).ToList();
+                }
 
                 case DateFilterType.SpecificDate:
-                    {
-                        var date = filter.Date!.Value.Date;
+                {
+                    var date = filter.Date!.Value.Date;
 
-                        return events.Where(e => e.Date.Date == date).ToList();
-                    }
+                    return events.Where(e => e.Date.Date == date).ToList();
+                }
 
                 case DateFilterType.Week:
-                    {
-                        var weekRange = GetDatesFilter(filter);
+                {
+                    var weekRange = GetDatesFilter(filter);
 
-                        return events.Where(e => e.Date.Date >= weekRange.StartDate && e.Date.Date <= weekRange.EndDate).ToList();
-                    }
+                    return events.Where(e => e.Date.Date >= weekRange.StartDate && e.Date.Date <= weekRange.EndDate).ToList();
+                }
 
                 default:
                     return events;
             }
         }
 
-        private string BuildUrl(DateRange dates)
+        private List<string> BuildUrls(DateRange dates, DateFilterType filterType)
         {
-            return $"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates={dates.StartDate:yyyyMMdd}";
+            if (filterType == DateFilterType.Today || filterType == DateFilterType.SpecificDate)
+            {
+                return new() {
+                    $"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates={dates.StartDate:yyyyMMdd}"
+                };
+            }
+
+            var urls = new List<string>();
+
+            for (var data = dates.StartDate.Date; data <= dates.EndDate.Date; data = data.AddDays(1))
+            {
+                urls.Add($"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates={data:yyyyMMdd}");
+            }
+
+            return urls;
         }
 
         private List<SportEventModel> MapToSportEvents(List<NBACompetition> competitions)
