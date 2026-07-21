@@ -1,4 +1,7 @@
 ﻿using consultor_jogos_de_esportes.HealthChecks;
+using consultor_jogos_de_esportes.HealthChecks.Basketball;
+using consultor_jogos_de_esportes.HealthChecks.Chess;
+using consultor_jogos_de_esportes.HealthChecks.F1;
 using consultor_jogos_de_esportes.Interfaces;
 using consultor_jogos_de_esportes.Services;
 using consultor_jogos_de_esportes.Services.Baseball;
@@ -37,6 +40,9 @@ public static class ServiceCollectionExtensions
 
         services.AddHttpClient<ChessValidator>();
         services.AddScoped<IApiValidator, ChessValidator>();
+
+        services.AddHttpClient<NBAValidator>();
+        services.AddScoped<IApiValidator, NBAValidator>();
 
         services.AddScoped<ApiHealthManager>();
 

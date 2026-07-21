@@ -2,7 +2,7 @@
 using System.Text;
 using consultor_jogos_de_esportes.Models;
 
-namespace consultor_jogos_de_esportes.HealthChecks
+namespace consultor_jogos_de_esportes.HealthChecks.Chess
 {
     public class ChessValidator : IApiValidator
     {

@@ -1,13 +1,15 @@
-﻿using consultor_jogos_de_esportes.Models;
+﻿using System.Text.Json;
+using consultor_jogos_de_esportes.Models;
+using consultor_jogos_de_esportes.Models.Basketball;
 
-namespace consultor_jogos_de_esportes.HealthChecks
+namespace consultor_jogos_de_esportes.HealthChecks.Basketball
 {
-    public class F1Validator : IApiValidator
+    public class NBAValidator : IApiValidator
     {
         private readonly HttpClient _httpClient;
-        public string Name => "F1";
+        public string Name => "NBA";
 
-        public F1Validator(HttpClient httpClient)
+        public NBAValidator(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
@@ -16,25 +18,29 @@ namespace consultor_jogos_de_esportes.HealthChecks
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<List<F1Model>>("https://api.openf1.org/v1/meetings");
+                var response = await _httpClient.GetAsync("https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20260603");
 
-                if (response == null)
+                if (!response.IsSuccessStatusCode)
                 {
                     return new ValidationResult
                     {
                         IsValid = false,
                         ApiName = Name,
-                        Message = "API retornou nulo"
+                        Message = $"HTTP {(int)response.StatusCode}"
                     };
                 }
 
-                if (!response.Any())
+                var responseJson = await response.Content.ReadAsStringAsync();
+
+                var result = JsonSerializer.Deserialize<NBAResponse>(responseJson);
+
+                if (result == null)
                 {
                     return new ValidationResult
                     {
                         IsValid = false,
                         ApiName = Name,
-                        Message = "Nenhuma corrida encontrada."
+                        Message = "Resposta inválida."
                     };
                 }
 
@@ -45,7 +51,6 @@ namespace consultor_jogos_de_esportes.HealthChecks
                     Message = "API funcionando normalmente."
                 };
             }
-
             catch (Exception ex)
             {
                 return new ValidationResult
