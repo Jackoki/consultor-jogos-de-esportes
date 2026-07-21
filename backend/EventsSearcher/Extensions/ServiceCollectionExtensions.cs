@@ -35,6 +35,9 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<F1Validator>();
         IServiceCollection serviceCollection = services.AddScoped<IApiValidator, F1Validator>();
 
+        services.AddHttpClient<ChessValidator>();
+        services.AddScoped<IApiValidator, ChessValidator>();
+
         services.AddScoped<ApiHealthManager>();
 
         return services;
