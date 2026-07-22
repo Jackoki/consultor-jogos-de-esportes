@@ -25,38 +25,7 @@ namespace consultor_jogos_de_esportes.Services.Basketball
                 .SelectMany(e => e.Competitions)
                 .ToList();
 
-            competitions = FilterEventsByDate(competitions, filter);
             return MapToSportEvents(competitions);
-        }
-
-        private List<NBACompetition> FilterEventsByDate(List<NBACompetition> events, DTOFilterDates filter)
-        {
-            switch (filter.DateFilterType)
-            {
-                case DateFilterType.Today:
-                {
-                    var today = DateTime.UtcNow.Date;
-
-                    return events.Where(e => e.Date.Date == today).ToList();
-                }
-
-                case DateFilterType.SpecificDate:
-                {
-                    var date = filter.Date!.Value.Date;
-
-                    return events.Where(e => e.Date.Date == date).ToList();
-                }
-
-                case DateFilterType.Week:
-                {
-                    var weekRange = GetDatesFilter(filter);
-
-                    return events.Where(e => e.Date.Date >= weekRange.StartDate && e.Date.Date <= weekRange.EndDate).ToList();
-                }
-
-                default:
-                    return events;
-            }
         }
 
         private List<string> BuildUrls(DateRange dates, DateFilterType filterType)
@@ -94,11 +63,13 @@ namespace consultor_jogos_de_esportes.Services.Basketball
                 events.Add(new SportEventModel
                 {
                     SportName = "Basquete NBA",
-                    EventName = $"{away.Team.DisplayName} vs {home.Team.DisplayName}",
+                    EventName = $"{home.Team.DisplayName} vs {away.Team.DisplayName}",
                     BeginDate = DateTimeUtils.ToBrazilTime(competition.Date),
                     EndDate = DateTimeUtils.ToBrazilTime(competition.Date),
                     Location = competition.Venue.Address.City,
-                    HasTime = true
+                    HasTime = true,
+                    LeftImage = home.Team.Logo,
+                    RightImage = away.Team.Logo
                 });
             }
 

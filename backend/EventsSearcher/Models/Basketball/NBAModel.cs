@@ -48,5 +48,8 @@ namespace consultor_jogos_de_esportes.Models.Baseball
     {
         [JsonPropertyName("displayName")]
         public string DisplayName { get; set; } = "";
+
+        [JsonPropertyName("logo")]
+        public string Logo { get; set; } = "";
     }
 }
