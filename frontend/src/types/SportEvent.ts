@@ -5,4 +5,7 @@ export interface SportEvent {
     endDate: string;
     location: string;
     hasTime: boolean;
+    centralImage?: string;
+    leftImage?: string;
+    rightImage?: string;
 }

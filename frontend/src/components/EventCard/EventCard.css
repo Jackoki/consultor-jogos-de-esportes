@@ -11,3 +11,34 @@
     border-color: #646cff;
     transform: translateY(-2px);
 }
+
+.event-image {
+    display: flex;
+    justify-content: center;
+    margin: 12px 0;
+}
+
+.event-image img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+}
+
+.left-right-images {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin: 12px 0;
+}
+
+.left-right-images img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.left-right-images span {
+    font-weight: bold;
+    font-size: 1.2rem;
+}

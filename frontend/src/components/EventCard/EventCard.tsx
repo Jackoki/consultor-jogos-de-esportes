@@ -9,7 +9,27 @@ interface Props {
 export function EventCard({ event }: Props) {
     return (
         <div className="event-card">
-            <h3>{event.eventName}</h3>
+            <h3>
+                {event.eventName}
+                    {
+                        event.leftImage && event.rightImage 
+                        ? 
+                            (
+                            <div className="left-right-images">
+                                <img src={event.leftImage} /> 
+                                <span>X</span>
+                                <img src={event.rightImage} />
+                            </div>
+                            )
+                        :
+                            event.centralImage ? 
+                            (
+                                <div className="event-image">
+                                    <img src={event.centralImage}/>
+                                </div>
+                            ) : null
+                    }
+            </h3>
             <p>
                 <strong>Local:</strong> {event.location}
             </p>
