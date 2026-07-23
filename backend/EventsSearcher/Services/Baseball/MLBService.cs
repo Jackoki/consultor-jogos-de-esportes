@@ -59,11 +59,13 @@ namespace consultor_jogos_de_esportes.Services.Baseball
         {
             return baseballEvents.Select(m => new SportEventModel
             {
-                SportName = "Beisebol",
+                SportName = "Beisebol MLB",
                 EventName = m.NameEvent,
                 BeginDate = DateTimeUtils.ToBrazilTime(m.DateTimeStart),
                 EndDate = DateTimeUtils.ToBrazilTime(m.DateTimeEnd),
                 Location = CountryHelper.GetCountryName(m.Venue.Name),
+                LeftImage = $"https://www.mlbstatic.com/team-logos/{m.Teams.Away.Team.Id}.svg",
+                RightImage = $"https://www.mlbstatic.com/team-logos/{m.Teams.Home.Team.Id}.svg",
                 HasTime = true
             }).ToList();
         }
