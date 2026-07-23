@@ -45,7 +45,6 @@ namespace consultor_jogos_de_esportes.Services.Baseball
                 EventName = $"{g.Away.Names.Short} x {g.Home.Names.Short}",
                 BeginDate = DateTimeUtils.ToBrazilTime(g.DateTimeStart),
                 EndDate = DateTimeUtils.ToBrazilTime(g.DateTimeEnd),
-                Location = "Estados Unidos",
                 HasTime = true
             }).ToList();
         }

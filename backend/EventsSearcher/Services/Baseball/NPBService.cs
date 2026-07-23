@@ -62,7 +62,6 @@ namespace consultor_jogos_de_esportes.Services.Baseball
                 EventName = e.Name,
                 BeginDate = DateTimeUtils.ToBrazilTime(e.Date),
                 EndDate = DateTimeUtils.ToBrazilTime(e.Date),
-                Location = "Japão",
                 HasTime = false,
 
                 LeftImage = $"{baseUrl}{NPBLogoHelper.GetLogo(e.HomeTeam.Code)}",
@@ -79,7 +78,7 @@ namespace consultor_jogos_de_esportes.Services.Baseball
             {
                 case DateFilterType.Today:
                     startDate = DateTime.Today;
-                    endDate = startDate.AddDays(1);
+                    endDate = DateTime.Today;
                     break;
 
                 case DateFilterType.SpecificDate:
@@ -87,7 +86,7 @@ namespace consultor_jogos_de_esportes.Services.Baseball
                         throw new ArgumentException("Data não informada.");
 
                     startDate = filter.Date.Value.Date;
-                    endDate = startDate.AddDays(1);
+                    endDate = filter.Date.Value.Date;
                     break;
 
                 case DateFilterType.Week:

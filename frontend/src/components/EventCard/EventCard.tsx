@@ -31,7 +31,7 @@ export function EventCard({ event }: Props) {
                     }
             </h3>
             <p>
-                <strong>Local:</strong> {event.location}
+                {event.location ? (<strong>Local: {event.location}</strong>) : null}
             </p>
 
             <p>
