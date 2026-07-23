@@ -4,16 +4,20 @@ using consultor_jogos_de_esportes.DTOs;
 using consultor_jogos_de_esportes.Interfaces;
 using consultor_jogos_de_esportes.Models;
 using consultor_jogos_de_esportes.Utils;
+using consultor_jogos_de_esportes.Utils.LogoHelper;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace consultor_jogos_de_esportes.Services
 {
     public class ChessService : ISportService
     {
         private readonly HttpClient _httpClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ChessService(HttpClient httpClient)
+        public ChessService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<List<SportEventModel>> GetEventsAsync(DTOFilterDates filter)
@@ -49,6 +53,9 @@ namespace consultor_jogos_de_esportes.Services
 
         private List<SportEventModel> MapToSportEvents(List<ChessModel> events)
         {
+            var request = _httpContextAccessor.HttpContext!.Request;
+            var baseUrl = $"{request.Scheme}://{request.Host}";
+
             return events.Select(e => new SportEventModel
             {
                 SportName = "Xadrez",
@@ -56,6 +63,7 @@ namespace consultor_jogos_de_esportes.Services
                 BeginDate = DateTimeUtils.ToBrazilTime(e.DateTimeStart),
                 EndDate = DateTimeUtils.ToBrazilTime(e.DateTimeEnd),
                 Location = e.CountryName,
+                CentralImage = $"{baseUrl}{CountryFlagHelper.GetCountryFlag(e.CountryCodeAlpha2)}",
                 HasTime = false
             }).ToList();
         }

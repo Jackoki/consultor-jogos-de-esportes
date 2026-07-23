@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { getCountryName } from "../../../utils/countryHelper.js";
+import { getAlpha2FromCountryName, getCountryNameFromAlpha3 } from "../../../utils/countryHelper.js";
 
 const FIDE_URL = "https://calendar.fide.com/calendar_server.php";
 const BASE_URL = "https://calendar.fide.com";
@@ -89,7 +89,7 @@ function parseCalendar(html, year) {
 
         const info = parseEventInfo(time, year);
 
-        events.push({name, link, date_start: info.date_start, date_end: info.date_end, country_name: info.country, year: year});
+        events.push({name, link, date_start: info.date_start, date_end: info.date_end, country_name: info.country, year: year, country_code_alpha2: info.country_code_alpha2});
     });
 
     return events;
@@ -139,6 +139,7 @@ function parseEventInfo(text, year) {
         date_start: new Date(startYear, startMonth, startDay),
         date_end: new Date(endYear, endMonth, endDay),
         city: match[5].trim(),
-        country: getCountryName(match[6])
+        country: getCountryNameFromAlpha3(match[6]),
+        country_code_alpha2: getAlpha2FromCountryName(getCountryNameFromAlpha3(match[6]))
     };
 }

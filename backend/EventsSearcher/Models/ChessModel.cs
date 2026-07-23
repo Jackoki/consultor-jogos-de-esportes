@@ -19,5 +19,8 @@ namespace consultor_jogos_de_esportes.Models
         [JsonPropertyName("year")]
         public int Year { get; set; }
 
+        [JsonPropertyName("country_code_alpha2")]
+        public string CountryCodeAlpha2 { get; set; }
+
     }
 }
