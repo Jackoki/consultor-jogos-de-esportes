@@ -14,6 +14,8 @@ async function test() {
             console.log(`Jogo ${index + 1}`);
             console.log("Nome:", event.name);
             console.log("Data:", event.date);
+            console.log("Logo 1:", event.homeTeamLogo);
+            console.log("Logo 2:", event.awayTeamLogo);
         });
     } 
 

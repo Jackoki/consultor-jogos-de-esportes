@@ -5,16 +5,19 @@ using consultor_jogos_de_esportes.Interfaces;
 using consultor_jogos_de_esportes.Models;
 using consultor_jogos_de_esportes.Models.Baseball.NPB;
 using consultor_jogos_de_esportes.Utils;
+using consultor_jogos_de_esportes.Utils.LogoHelper.NPB;
+using static System.Net.WebRequestMethods;
 
 namespace consultor_jogos_de_esportes.Services.Baseball
 {
     public class NPBService : ISportService
     {
         private readonly HttpClient _httpClient;
-
-        public NPBService(HttpClient httpClient)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public NPBService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<List<SportEventModel>> GetEventsAsync(DTOFilterDates filter)
@@ -50,6 +53,9 @@ namespace consultor_jogos_de_esportes.Services.Baseball
 
         private List<SportEventModel> MapToSportEvents(List<NPBModel> events)
         {
+            var request = _httpContextAccessor.HttpContext!.Request;
+            var baseUrl = $"{request.Scheme}://{request.Host}";
+
             return events.Select(e => new SportEventModel
             {
                 SportName = "Baseball NPB",
@@ -57,7 +63,10 @@ namespace consultor_jogos_de_esportes.Services.Baseball
                 BeginDate = DateTimeUtils.ToBrazilTime(e.Date),
                 EndDate = DateTimeUtils.ToBrazilTime(e.Date),
                 Location = "Japão",
-                HasTime = false
+                HasTime = false,
+
+                LeftImage = $"{baseUrl}{NPBLogoHelper.GetLogo(e.HomeTeam.Code)}",
+                RightImage = $"{baseUrl}{NPBLogoHelper.GetLogo(e.AwayTeam.Code)}",
             }).ToList();
         }
 

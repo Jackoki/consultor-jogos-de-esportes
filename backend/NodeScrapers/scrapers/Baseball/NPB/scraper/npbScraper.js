@@ -115,8 +115,17 @@ function parseGame($, gameNode, year, month, day) {
         }
 
         return {
-            name: `${getTeamName(away)} x ${getTeamName(home)}`,
-            date: new Date(year, month - 1, day)
+            name: `${getTeamName(home)} x ${getTeamName(away)}`,
+            date: new Date(year, month - 1, day),
+            homeTeam: {
+                code: home,
+                name: getTeamName(home)
+            },
+
+            awayTeam: {
+                code: away,
+                name: getTeamName(away)
+            }
         };
     }
 
@@ -132,8 +141,17 @@ function parseGame($, gameNode, year, month, day) {
         }
 
         return {
-            name: `${getTeamName(away)} x ${getTeamName(home)}`,
-            date: new Date(year, month - 1, day)
+            name: `${getTeamName(home)} x ${getTeamName(away)}`,
+            date: new Date(year, month - 1, day),
+            homeTeam: {
+                code: home,
+                name: getTeamName(home)
+            },
+
+            awayTeam: {
+                code: away,
+                name: getTeamName(away)
+            }
         };
     }
     

@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSportServices();
 builder.Services.AddHealthChecksCustom();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors(options =>
 {
@@ -22,5 +23,6 @@ var app = builder.Build();
 app.UseCors("ReactPolicy");
 
 app.MapControllers();
+app.UseStaticFiles();
 
 app.Run();
