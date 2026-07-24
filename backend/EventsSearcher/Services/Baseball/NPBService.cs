@@ -12,8 +12,10 @@ namespace consultor_jogos_de_esportes.Services.Baseball
 {
     public class NPBService : ISportService
     {
+        public string SportName => "npb";
         private readonly HttpClient _httpClient;
         private readonly IHttpContextAccessor _httpContextAccessor;
+
         public NPBService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;

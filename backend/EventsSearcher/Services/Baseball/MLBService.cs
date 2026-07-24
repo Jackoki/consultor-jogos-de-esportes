@@ -8,6 +8,7 @@ namespace consultor_jogos_de_esportes.Services.Baseball
 {
     public class MLBService : ApiSportService
     {
+        public override string SportName => "mlb";
         public MLBService(HttpClient httpClient) : base(httpClient)
         {
 

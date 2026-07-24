@@ -7,6 +7,7 @@ using consultor_jogos_de_esportes.Interfaces;
 using consultor_jogos_de_esportes.Services;
 using consultor_jogos_de_esportes.Services.Baseball;
 using consultor_jogos_de_esportes.Services.Basketball;
+using consultor_jogos_de_esportes.Services.Motorsport;
 
 namespace consultor_jogos_de_esportes.Extensions;
 
@@ -21,12 +22,12 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<NPBService>();
         services.AddHttpClient<NBAService>();
 
-        services.AddScoped<F1Service>();
+        services.AddScoped<MotorsportService>();
         services.AddScoped<ChessService>();
         services.AddScoped<BaseballService>();
         services.AddScoped<BasketballService>();
 
-        services.AddScoped<ISportService, F1Service>();
+        services.AddScoped<ISportService, MotorsportService>();
         services.AddScoped<ISportService, ChessService>();
         services.AddScoped<ISportService, BaseballService>();
         services.AddScoped<ISportService, BasketballService>();

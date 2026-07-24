@@ -9,7 +9,7 @@ namespace consultor_jogos_de_esportes.Services
     public abstract class ApiSportService : ISportService
     {
         protected readonly HttpClient HttpClient;
-
+        public abstract string SportName { get; }
         protected ApiSportService(HttpClient httpClient)
         {
             HttpClient = httpClient;

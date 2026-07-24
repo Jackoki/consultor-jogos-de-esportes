@@ -19,14 +19,16 @@ namespace consultor_jogos_de_esportes.Controllers
         [HttpPost]
         public async Task<IActionResult> GetEvents([FromBody] DTOFilterDates filter)
         {
-            var tasks = _services.Select(s => s.GetEventsAsync(filter));
+            IEnumerable<ISportService> services = _services;
 
+            if (!string.IsNullOrEmpty(filter.Sport))
+            {
+                services = services.Where(s => s.SportName == filter.Sport);
+            }
+
+            var tasks = services.Select(s => s.GetEventsAsync(filter));
             var results = await Task.WhenAll(tasks);
-
-            var events = results
-                .SelectMany(x => x)
-                .OrderBy(e => e.BeginDate)
-                .ToList();
+            var events = results.SelectMany(x => x).OrderBy(e => e.BeginDate).ToList();
 
             return Ok(events);
         }

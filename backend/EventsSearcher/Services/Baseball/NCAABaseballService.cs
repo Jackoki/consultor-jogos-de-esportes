@@ -7,6 +7,7 @@ namespace consultor_jogos_de_esportes.Services.Baseball
 {
     public class NCAAService : ApiSportService
     {
+        public override string SportName => "ncaa";
         public NCAAService(HttpClient httpClient) : base(httpClient)
         {
 

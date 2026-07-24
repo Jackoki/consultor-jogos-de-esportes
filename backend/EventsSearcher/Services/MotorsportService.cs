@@ -3,25 +3,26 @@ using consultor_jogos_de_esportes.Interfaces;
 using consultor_jogos_de_esportes.Models;
 using consultor_jogos_de_esportes.Services.Baseball;
 using consultor_jogos_de_esportes.Services.Basketball;
+using consultor_jogos_de_esportes.Services.Motorsport;
 using consultor_jogos_de_esportes.Utils;
 
 namespace consultor_jogos_de_esportes.Services
 {
-    public class BasketballService : ISportService
+    public class MotorsportService : ISportService
     {
-        public string SportName => "basketball";
-        private readonly NBAService _nba;
+        public string SportName => "motorsport";
+        private readonly F1Service _f1;
 
-        public BasketballService(NBAService nba)
+        public MotorsportService(F1Service f1)
         {
-            _nba = nba;
+            _f1 = f1;
         }
 
         public async Task<List<SportEventModel>> GetEventsAsync(DTOFilterDates filter)
         {
-            var nba = await _nba.GetEventsAsync(filter);
+            var f1 = await _f1.GetEventsAsync(filter);
 
-            return nba.OrderBy(x => x.BeginDate).ToList();
+            return f1.OrderBy(x => x.BeginDate).ToList();
         }
     }
 }
