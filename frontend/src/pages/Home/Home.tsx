@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FilterForm } from "../../components/FilterForm/FilterForm";
 import { EventCard } from "../../components/EventCard/EventCard";
+import { Header } from "../../components/Header/Header";
 import type { SportEvent } from "../../types/SportEvent";
 import "./Home.css";
 
@@ -18,6 +19,7 @@ export function Home() {
 
     return (
         <>
+            <Header />
             <h1>Consultor de Eventos Esportivos</h1>
 
             <FilterForm setEvents={setEvents} />
