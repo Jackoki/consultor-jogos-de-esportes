@@ -1,7 +1,12 @@
+import { Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home/Home";
+import { SportPage } from "./pages/Sport/SportPage";
 
-function App() {
-    return <Home />;
+export function App() {
+    return (
+        <Routes>
+            <Route path="/" element={<Home />}/>
+            <Route path="/:sport/:league?"element={<SportPage />}/>
+        </Routes>
+    );
 }
-
-export default App;

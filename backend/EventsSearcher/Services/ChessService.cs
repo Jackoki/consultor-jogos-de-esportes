@@ -11,6 +11,7 @@ namespace consultor_jogos_de_esportes.Services
 {
     public class ChessService : ISportService
     {
+        public string SportName => "chess";
         private readonly HttpClient _httpClient;
         private readonly IHttpContextAccessor _httpContextAccessor;
 

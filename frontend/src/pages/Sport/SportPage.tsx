@@ -1,20 +1,19 @@
+import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { FilterForm } from "../../components/FilterForm/FilterForm";
-import { EventCard } from "../../components/EventCard/EventCard";
 import { Header } from "../../components/Header/Header";
+import { FilterForm } from "../../components/FilterForm/FilterForm";
 import { EventSections } from "../../components/EventSections/EventSections";
 import type { SportEvent } from "../../types/SportEvent";
-import "./Home.css";
 
-export function Home() {
+export function SportPage() {
+    const { sport, league } = useParams();
     const [events, setEvents] = useState<SportEvent[]>([]);
 
     return (
         <>
             <Header />
-            <h1>Consultor de Eventos Esportivos</h1>
-            <FilterForm setEvents={setEvents} />
-            <EventSections events={events} />
+                <FilterForm setEvents={setEvents} sport={sport} league={league}/>
+            <EventSections events={events}/>
         </>
     );
 }

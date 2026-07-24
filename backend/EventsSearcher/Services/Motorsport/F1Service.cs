@@ -2,10 +2,11 @@
 using consultor_jogos_de_esportes.Models;
 using consultor_jogos_de_esportes.Utils;
 
-namespace consultor_jogos_de_esportes.Services
+namespace consultor_jogos_de_esportes.Services.Motorsport
 {
     public class F1Service : ApiSportService
     {
+        public override string SportName => "f1";
         public F1Service(HttpClient httpClient) : base(httpClient)
         {
 

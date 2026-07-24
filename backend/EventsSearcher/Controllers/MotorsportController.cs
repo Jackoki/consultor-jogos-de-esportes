@@ -1,18 +1,18 @@
 ﻿
-
 using consultor_jogos_de_esportes.DTOs;
 using consultor_jogos_de_esportes.Services;
+using consultor_jogos_de_esportes.Services.Motorsport;
 using Microsoft.AspNetCore.Mvc;
 
 namespace consultor_jogos_de_esportes.Controllers
 {
     [ApiController]
-    [Route("api/f1")]
-    public class F1Controller : ControllerBase
+    [Route("api/motorsport")]
+    public class MotorsportController : ControllerBase
     {
-        private readonly F1Service _f1Service;
-        public F1Controller(F1Service f1Service) { 
-            this._f1Service = f1Service;
+        private readonly MotorsportService _motorsportService;
+        public MotorsportController(MotorsportService motorsportService) { 
+            this._motorsportService = motorsportService;
         }
 
         [HttpPost("events")]
@@ -20,7 +20,7 @@ namespace consultor_jogos_de_esportes.Controllers
         {
             try
             {
-                var result = await _f1Service.GetEventsAsync(filter);
+                var result = await _motorsportService.GetEventsAsync(filter);
                 return Ok(result);
             }
 

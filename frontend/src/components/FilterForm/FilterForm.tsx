@@ -2,7 +2,7 @@ import { useState } from "react";
 import { api } from "../../services/api";
 import { DateFilterType } from "../../types/FilterDates";
 
-export function FilterForm({ setEvents }: any) {
+export function FilterForm({ setEvents, sport, league }: any) {
 
     const [dateFilterType, setDateFilterType] = useState<1 | 2 | 3>(DateFilterType.Today);
 
@@ -15,7 +15,9 @@ export function FilterForm({ setEvents }: any) {
 
         const payload = {
             dateFilterType,
-            date: date || null
+            date: date || null,
+            sport,
+            league
         };
 
         try {
