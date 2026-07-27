@@ -1,4 +1,4 @@
-name: Backend Scraper Continuos Integration
+name: Backend Scraper Continuous Integration
 
 on:
   push:
@@ -20,8 +20,6 @@ jobs:
         with:
           node-version: 22
 
-      - run: npm install
+      - run: npm ci
 
-      - run: npm run build
-
-      - run: npm run test
+      - run: npm test

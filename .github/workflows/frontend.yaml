@@ -1,4 +1,4 @@
-name: Frontend Continuos Integration
+name: Frontend Continuous Integration
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 jobs:
   continuos-integration:
     runs-on: ubuntu-latest
-    
+
     defaults:
       run:
         working-directory: frontend
