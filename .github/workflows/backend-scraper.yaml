@@ -4,11 +4,11 @@ on:
   push:
     paths:
       - "backend/NodeScrapers/**"
-      
+
   workflow_dispatch:
 
 jobs:
-  continuos-integration:
+  back-end-scraper-continuous-integration:
     runs-on: ubuntu-latest
 
     defaults:

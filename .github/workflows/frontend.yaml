@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  continuos-integration:
+  front-end-continuous-integration:
     runs-on: ubuntu-latest
 
     defaults:
