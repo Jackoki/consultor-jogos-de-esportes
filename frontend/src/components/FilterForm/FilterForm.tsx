@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { api } from "../../services/api";
 import { DateFilterType } from "../../types/FilterDates";
+import type { SportEvent } from "../../types/SportEvent";
 
-export function FilterForm({ setEvents, sport, league }: any) {
+interface FilterFormProps {
+    setEvents: (events: SportEvent[]) => void;
+    sport?: string;
+    league?: string;
+}
+
+export function FilterForm({ setEvents, sport, league }: FilterFormProps) {
 
     const [dateFilterType, setDateFilterType] = useState<1 | 2 | 3>(DateFilterType.Today);
 
@@ -25,9 +32,14 @@ export function FilterForm({ setEvents, sport, league }: any) {
             setEvents(response.data);
         }
 
-        catch (error: any) {
-            const message = error?.response?.data?.message || "Erro ao buscar eventos";
-            setError(message);
+        catch (error: unknown) {
+            if (error instanceof Error) {
+                setError(error.message);
+            }
+            
+            else {
+                setError("Erro ao buscar eventos");
+            }
         }
     }
 

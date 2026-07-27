@@ -1,9 +1,9 @@
-name: Frontend Continuos Integration
+name: Backend Scraper Continuos Integration
 
 on:
   push:
     paths:
-      - "frontend/**"
+      - "backend/NodeScrapers/**"
 
 jobs:
   continuos-integration:
@@ -17,8 +17,6 @@ jobs:
           node-version: 22
 
       - run: npm install
-
-      - run: npm run lint
 
       - run: npm run build
 

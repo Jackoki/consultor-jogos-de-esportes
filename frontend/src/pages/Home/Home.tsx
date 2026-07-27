@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { FilterForm } from "../../components/FilterForm/FilterForm";
-import { EventCard } from "../../components/EventCard/EventCard";
 import { Header } from "../../components/Header/Header";
 import { EventSections } from "../../components/EventSections/EventSections";
 import type { SportEvent } from "../../types/SportEvent";
