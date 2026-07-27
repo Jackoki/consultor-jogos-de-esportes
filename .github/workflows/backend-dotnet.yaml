@@ -5,6 +5,8 @@ on:
     paths:
       - "backend/EventsSearcher/**"
 
+  workflow_dispatch:
+
 jobs:
   continuos-integration:
     runs-on: ubuntu-latest
