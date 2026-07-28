@@ -21,6 +21,13 @@ export const sports = [
             { name: "NPB", path: "/baseball/npb" },
             { name: "NCAA", path: "/baseball/ncaa" }
         ]
+    },    
+    {
+        name: "Futebol Americano",
+        path: "/american-football",
+        leagues: [
+            { name: "NFL", path: "/american-football/nfl" }
+        ]
     },
     {
         name: "Xadrez",
