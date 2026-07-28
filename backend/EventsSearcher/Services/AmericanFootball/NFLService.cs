@@ -65,7 +65,7 @@ namespace consultor_jogos_de_esportes.Services.Basketball
                     SportName = "Futebol Americano NFL",
                     EventName = $"{home.Team.DisplayName} vs {away.Team.DisplayName}",
                     BeginDate = DateTimeUtils.ToBrazilTime(competition.Date),
-                    EndDate = DateTimeUtils.ToBrazilTime(competition.Date),
+                    EndDate = DateTimeUtils.ToBrazilTime(competition.Date).AddHours(3),
                     Location = competition.Venue.Address.City,
                     HasTime = true,
                     LeftImage = home.Team.Logo,

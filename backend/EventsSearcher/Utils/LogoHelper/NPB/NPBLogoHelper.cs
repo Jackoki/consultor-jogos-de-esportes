@@ -15,7 +15,9 @@
             ["H"] = "/imgs/npb/softbanks_hawks.png",
             ["L"] = "/imgs/npb/saitama_seibu.png",
             ["DB"] = "/imgs/npb/baystars_yokohama.png",
-            ["C"] = "/imgs/npb/hiroshima_carp.png"
+            ["C"] = "/imgs/npb/hiroshima_carp.png",
+            ["CL"] = "/imgs/npb/central_league.png",
+            ["PL"] = "/imgs/npb/pacific_league.png"
         };
 
         public static string? GetLogo(string? code)

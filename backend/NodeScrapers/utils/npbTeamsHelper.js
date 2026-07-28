@@ -11,6 +11,8 @@ const teamMap = {
     L: "Saitama Seibu Lions",
     DB: "YOKOHAMA DeNA BAYSTARS",
     C: "Hiroshima Toyo Carp",
+    CL: "Central League",
+    PL: "Pacific League",
 };
 
 export function getTeamName(teamCode) {
