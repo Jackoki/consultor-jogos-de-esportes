@@ -6,7 +6,6 @@ using consultor_jogos_de_esportes.Models;
 using consultor_jogos_de_esportes.Models.Baseball.NPB;
 using consultor_jogos_de_esportes.Utils;
 using consultor_jogos_de_esportes.Utils.LogoHelper.NPB;
-using static System.Net.WebRequestMethods;
 
 namespace consultor_jogos_de_esportes.Services.Baseball
 {

@@ -1,14 +1,14 @@
 ﻿using consultor_jogos_de_esportes.DTOs;
 using consultor_jogos_de_esportes.Models;
-using consultor_jogos_de_esportes.Models.Basketball;
+using consultor_jogos_de_esportes.Models.AmericanFootball;
 using consultor_jogos_de_esportes.Utils;
 
 namespace consultor_jogos_de_esportes.Services.Basketball
 {
-    public class NBAService : ApiSportService
+    public class NFLService : ApiSportService
     {
-        public override string SportName => "nba";
-        public NBAService(HttpClient httpClient) : base(httpClient)
+        public override string SportName => "nfl";
+        public NFLService(HttpClient httpClient) : base(httpClient)
         {
         }
 
@@ -16,7 +16,7 @@ namespace consultor_jogos_de_esportes.Services.Basketball
         {
             var dates = GetDatesFilter(filter);
             var urls = BuildUrls(dates, filter.DateFilterType);
-            var tasks = urls.Select(url => GetAsync<NBAResponse>(url));
+            var tasks = urls.Select(url => GetAsync<NFLResponse>(url));
             var responses = await Task.WhenAll(tasks);
 
             var competitions = responses
@@ -33,7 +33,7 @@ namespace consultor_jogos_de_esportes.Services.Basketball
             if (filterType == DateFilterType.Today || filterType == DateFilterType.SpecificDate)
             {
                 return new() {
-                    $"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates={dates.StartDate:yyyyMMdd}"
+                    $"https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates={dates.StartDate:yyyyMMdd}"
                 };
             }
 
@@ -41,13 +41,13 @@ namespace consultor_jogos_de_esportes.Services.Basketball
 
             for (var data = dates.StartDate.Date; data <= dates.EndDate.Date; data = data.AddDays(1))
             {
-                urls.Add($"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates={data:yyyyMMdd}");
+                urls.Add($"https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates={data:yyyyMMdd}");
             }
 
             return urls;
         }
 
-        private List<SportEventModel> MapToSportEvents(List<NBACompetition> competitions)
+        private List<SportEventModel> MapToSportEvents(List<NFLCompetition> competitions)
         {
             var events = new List<SportEventModel>();
 
@@ -62,7 +62,7 @@ namespace consultor_jogos_de_esportes.Services.Basketball
 
                 events.Add(new SportEventModel
                 {
-                    SportName = "Basquete NBA",
+                    SportName = "Futebol Americano NFL",
                     EventName = $"{home.Team.DisplayName} vs {away.Team.DisplayName}",
                     BeginDate = DateTimeUtils.ToBrazilTime(competition.Date),
                     EndDate = DateTimeUtils.ToBrazilTime(competition.Date),

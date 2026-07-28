@@ -21,16 +21,19 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<NCAAService>();
         services.AddHttpClient<NPBService>();
         services.AddHttpClient<NBAService>();
+        services.AddHttpClient<NFLService>();
 
         services.AddScoped<MotorsportService>();
         services.AddScoped<ChessService>();
         services.AddScoped<BaseballService>();
         services.AddScoped<BasketballService>();
+        services.AddScoped<AmericanFootballService>();
 
         services.AddScoped<ISportService, MotorsportService>();
         services.AddScoped<ISportService, ChessService>();
         services.AddScoped<ISportService, BaseballService>();
         services.AddScoped<ISportService, BasketballService>();
+        services.AddScoped<ISportService, AmericanFootballService>();
 
         return services;
     }

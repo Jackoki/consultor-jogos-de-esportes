@@ -2,7 +2,6 @@
 using consultor_jogos_de_esportes.Interfaces;
 using consultor_jogos_de_esportes.Models;
 using consultor_jogos_de_esportes.Services.Baseball;
-using consultor_jogos_de_esportes.Utils;
 
 namespace consultor_jogos_de_esportes.Services
 {

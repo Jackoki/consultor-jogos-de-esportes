@@ -5,7 +5,6 @@ using consultor_jogos_de_esportes.Interfaces;
 using consultor_jogos_de_esportes.Models;
 using consultor_jogos_de_esportes.Utils;
 using consultor_jogos_de_esportes.Utils.LogoHelper;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace consultor_jogos_de_esportes.Services
 {
