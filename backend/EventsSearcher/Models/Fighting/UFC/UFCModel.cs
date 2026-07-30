@@ -4,6 +4,9 @@ namespace consultor_jogos_de_esportes.Models.Fighting
 {
     public class UFCModel
     {
+        [JsonPropertyName("shortName")]
+        public string ShortName { get; set; }
+
         [JsonPropertyName("competitions")]
         public List<UFCCompetition> Competitions { get; set; } = new();
     }

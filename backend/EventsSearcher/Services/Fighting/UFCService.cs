@@ -29,7 +29,13 @@ namespace consultor_jogos_de_esportes.Services.Fighting
                 .SelectMany(e => e.Competitions)
                 .ToList();
 
-            return MapToSportEvents(competitions);
+            var nameEvent = responses
+                .Where(r => r != null)
+                .SelectMany(r => r!.Events)
+                .Select(e => e.ShortName)
+                .ToString();
+
+            return MapToSportEvents(competitions, nameEvent);
         }
 
         private List<string> BuildUrls(DateRange dates, DateFilterType filterType)
@@ -51,7 +57,7 @@ namespace consultor_jogos_de_esportes.Services.Fighting
             return urls;
         }
 
-        private List<SportEventModel> MapToSportEvents(List<UFCCompetition> competitions)
+        private List<SportEventModel> MapToSportEvents(List<UFCCompetition> competitions, string nameEvent)
         {
             var request = _httpContextAccessor.HttpContext!.Request;
             var baseUrl = $"{request.Scheme}://{request.Host}";
@@ -70,7 +76,7 @@ namespace consultor_jogos_de_esportes.Services.Fighting
                 events.Add(new SportEventModel
                 {
                     SportName = "UFC",
-                    EventName = $"{fighter1.DisplayName} vs {fighter2.DisplayName}",
+                    EventName = nameEvent + ": " + $"{fighter1.DisplayName} vs {fighter2.DisplayName}",
                     BeginDate = DateTimeUtils.ToBrazilTime(competition.Date),
                     EndDate = DateTimeUtils.ToBrazilTime(competition.Date).AddHours(3),
                     Location = competition.Venue.Address.City,
