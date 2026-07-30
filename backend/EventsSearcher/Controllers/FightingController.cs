@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace consultor_jogos_de_esportes.Controllers
 {
     [ApiController]
-    [Route("api/basketball")]
+    [Route("api/fighting")]
     public class FightingController : ControllerBase
     {
         private readonly FightingService _fightingService;

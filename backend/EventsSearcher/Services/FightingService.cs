@@ -7,7 +7,7 @@ namespace consultor_jogos_de_esportes.Services
 {
     public class FightingService : ISportService
     {
-        public string SportName => "ufc";
+        public string SportName => "fighting";
         private readonly UFCService _ufc;
 
         public FightingService(UFCService ufc)
@@ -17,9 +17,9 @@ namespace consultor_jogos_de_esportes.Services
 
         public async Task<List<SportEventModel>> GetEventsAsync(DTOFilterDates filter)
         {
-            var nfl = await _ufc.GetEventsAsync(filter);
+            var ufc = await _ufc.GetEventsAsync(filter);
 
-            return nfl.OrderBy(x => x.BeginDate).ToList();
+            return ufc.OrderBy(x => x.BeginDate).ToList();
         }
     }
 }

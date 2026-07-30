@@ -55,7 +55,7 @@ namespace consultor_jogos_de_esportes.Models.Fighting
 
     public class UFCFlag
     {
-        [JsonPropertyName("flag")]
+        [JsonPropertyName("alt")]
         public string CountryName { get; set; } = "";
     }
 }

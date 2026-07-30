@@ -23,19 +23,12 @@ namespace consultor_jogos_de_esportes.Services.Fighting
             var tasks = urls.Select(url => GetAsync<UFCResponse>(url));
             var responses = await Task.WhenAll(tasks);
 
-            var competitions = responses
+            var events = responses
                 .Where(r => r != null)
                 .SelectMany(r => r!.Events)
-                .SelectMany(e => e.Competitions)
                 .ToList();
 
-            var nameEvent = responses
-                .Where(r => r != null)
-                .SelectMany(r => r!.Events)
-                .Select(e => e.ShortName)
-                .ToString();
-
-            return MapToSportEvents(competitions, nameEvent);
+            return MapToSportEvents(events);
         }
 
         private List<string> BuildUrls(DateRange dates, DateFilterType filterType)
@@ -57,36 +50,45 @@ namespace consultor_jogos_de_esportes.Services.Fighting
             return urls;
         }
 
-        private List<SportEventModel> MapToSportEvents(List<UFCCompetition> competitions, string nameEvent)
+        private List<SportEventModel> MapToSportEvents(List<UFCModel> events)
         {
             var request = _httpContextAccessor.HttpContext!.Request;
             var baseUrl = $"{request.Scheme}://{request.Host}";
-            var events = new List<SportEventModel>();
+            var eventsSport = new List<SportEventModel>();
 
-            foreach (var competition in competitions)
+            foreach (var ufcEvent in events)
             {
-                var athletes = competition.Competitors.Where(c => c.Athlete != null).ToList();
-
-                if (athletes.Count < 2)
-                    continue;
-
-                var fighter1 = athletes[0].Athlete;
-                var fighter2 = athletes[1].Athlete;
-
-                events.Add(new SportEventModel
+                foreach (var competition in ufcEvent.Competitions)
                 {
-                    SportName = "UFC",
-                    EventName = nameEvent + ": " + $"{fighter1.DisplayName} vs {fighter2.DisplayName}",
-                    BeginDate = DateTimeUtils.ToBrazilTime(competition.Date),
-                    EndDate = DateTimeUtils.ToBrazilTime(competition.Date).AddHours(3),
-                    Location = competition.Venue.Address.City,
-                    HasTime = true,
-                    LeftImage = $"{baseUrl}{CountryFlagHelper.GetCountryFlag(fighter1.Flag.CountryName)}",
-                    RightImage = $"{baseUrl}{CountryFlagHelper.GetCountryFlag(fighter2.Flag.CountryName)}"
-                });
+                    var athletes = competition.Competitors.Where(c => c.Athlete != null).ToList();
+
+                    if (athletes.Count < 2)
+                        continue;
+
+                    var fighter1 = athletes[0].Athlete;
+                    var fighter2 = athletes[1].Athlete;
+
+                    var leftCode = CountryHelper.GetAlpha2FromCountryName(fighter1.Flag.CountryName);
+                    var rightCode = CountryHelper.GetAlpha2FromCountryName(fighter2.Flag.CountryName);
+
+                    var leftImage = leftCode != null ? $"{baseUrl}{CountryFlagHelper.GetCountryFlag(leftCode)}" : null;
+                    var rightImage = rightCode != null ? $"{baseUrl}{CountryFlagHelper.GetCountryFlag(rightCode)}": null;
+
+                    eventsSport.Add(new SportEventModel
+                    {
+                        SportName = "UFC",
+                        EventName = ufcEvent.ShortName + ": " + $"{fighter1.DisplayName} vs {fighter2.DisplayName}",
+                        BeginDate = DateTimeUtils.ToBrazilTime(competition.Date),
+                        EndDate = DateTimeUtils.ToBrazilTime(competition.Date).AddHours(3),
+                        Location = competition.Venue.Address.City,
+                        HasTime = true,
+                        LeftImage = $"{baseUrl}{CountryFlagHelper.GetCountryFlag(CountryHelper.GetAlpha2FromCountryName(fighter1.Flag.CountryName))}",
+                        RightImage = $"{baseUrl}{CountryFlagHelper.GetCountryFlag(CountryHelper.GetAlpha2FromCountryName(fighter2.Flag.CountryName))}"
+                    });
+                }
             }
 
-            return events;
+            return eventsSport;
         }
     }
 }
