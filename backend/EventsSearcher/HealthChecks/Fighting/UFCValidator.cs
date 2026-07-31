@@ -17,7 +17,7 @@ namespace consultor_jogos_de_esportes.HealthChecks.Fighting
         {
             try
             {
-                var response = await _httpClient.GetAsync("https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard?dates=20260803");
+                var response = await _httpClient.GetAsync("https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard?dates=20260801");
 
                 if (!response.IsSuccessStatusCode)
                 {

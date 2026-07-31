@@ -1,8 +1,10 @@
 ﻿using consultor_jogos_de_esportes.HealthChecks;
+using consultor_jogos_de_esportes.HealthChecks.AmericanFootball;
 using consultor_jogos_de_esportes.HealthChecks.Baseball;
 using consultor_jogos_de_esportes.HealthChecks.Basketball;
 using consultor_jogos_de_esportes.HealthChecks.Chess;
 using consultor_jogos_de_esportes.HealthChecks.F1;
+using consultor_jogos_de_esportes.HealthChecks.Fighting;
 using consultor_jogos_de_esportes.Interfaces;
 using consultor_jogos_de_esportes.Services;
 using consultor_jogos_de_esportes.Services.Baseball;
@@ -54,11 +56,19 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IApiValidator, NBAValidator>();
 
         services.AddHttpClient<NCAAValidator>();
-        services.AddHttpClient<NPBValidator>();
-        services.AddHttpClient<MLBValidator>();
         services.AddScoped<IApiValidator, NCAAValidator>();
+
+        services.AddHttpClient<NPBValidator>();
         services.AddScoped<IApiValidator, NPBValidator>();
+
+        services.AddHttpClient<MLBValidator>();
         services.AddScoped<IApiValidator, MLBValidator>();
+
+        services.AddHttpClient<NFLValidator>();
+        services.AddScoped<IApiValidator, NFLValidator>();
+
+        services.AddHttpClient<UFCValidator>();
+        services.AddScoped<IApiValidator, UFCValidator>();
 
         services.AddScoped<ApiHealthManager>();
 
