@@ -1,11 +1,13 @@
 ﻿using System.Globalization;
 using Nager.Country;
+using Nager.Country.Translation;
 
 namespace consultor_jogos_de_esportes.Utils
 {
     public static class CountryHelper
     {
         private static readonly CountryProvider Provider = new();
+        private static readonly TranslationProvider TranslationProvider = new();
 
         private static readonly Dictionary<string, string> CountryMap = new()
         {
@@ -125,7 +127,11 @@ namespace consultor_jogos_de_esportes.Utils
             { "Santa Helena", "SH-HL" },
             { "Tristão da Cunha", "SH-TA" },
             { "Mônaco", "MC" },
-            { "Suíça", "CH" }
+            { "Suíça", "CH" },
+            { "England", "GB-ENG" },
+            { "Scotland", "GB-SCT" },
+            { "Wales", "GB-WLS" },
+            { "Northern Ireland", "GB-NIR" }
         };
 
         public static string? GetCountryNameFromAlpha3(string? countryCode)
@@ -140,7 +146,6 @@ namespace consultor_jogos_de_esportes.Utils
                 return name;
 
             var country = Provider.GetCountry(countryCode);
-
             return country?.CommonName ?? countryCode;
         }
 
@@ -201,7 +206,20 @@ namespace consultor_jogos_de_esportes.Utils
                 return string.Empty;
 
             string translated = "";
-            return CountryMap.TryGetValue(countryName, out translated) ? translated : countryName;
+            if (CountryMap.TryGetValue(countryName, out translated))
+            {
+                return translated;
+            }
+
+            try
+            {
+                var country = Provider.GetCountryByName(countryName);
+                return TranslationProvider.GetCountryTranslatedName(country.Alpha2Code,LanguageCode.PT) ?? country.CommonName;
+            }
+            catch
+            {
+                return countryName;
+            }
         }
     }
 }
