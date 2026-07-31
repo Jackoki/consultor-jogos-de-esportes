@@ -30,6 +30,13 @@ export const sports = [
         ]
     },
     {
+        name: "Lutas",
+        path: "/fighting",
+        leagues: [
+            { name: "UFC", path: "/fighting/ufc" }
+        ]
+    },
+    {
         name: "Xadrez",
         path: "/chess",
         leagues: []
