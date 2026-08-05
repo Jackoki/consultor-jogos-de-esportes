@@ -3,7 +3,7 @@ using consultor_jogos_de_esportes.Models;
 using consultor_jogos_de_esportes.Models.AmericanFootball;
 using consultor_jogos_de_esportes.Utils;
 
-namespace consultor_jogos_de_esportes.Services.Basketball
+namespace consultor_jogos_de_esportes.Services.AmericanFootball
 {
     public class NFLService : ApiSportService
     {

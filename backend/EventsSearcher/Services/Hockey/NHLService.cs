@@ -1,9 +1,9 @@
 ﻿using consultor_jogos_de_esportes.DTOs;
 using consultor_jogos_de_esportes.Models;
-using consultor_jogos_de_esportes.Models.AmericanFootball;
+using consultor_jogos_de_esportes.Models.Hockey;
 using consultor_jogos_de_esportes.Utils;
 
-namespace consultor_jogos_de_esportes.Services.Basketball
+namespace consultor_jogos_de_esportes.Services.Hockey
 {
     public class NHLService : ApiSportService
     {
@@ -16,13 +16,13 @@ namespace consultor_jogos_de_esportes.Services.Basketball
         {
             var dates = GetDatesFilter(filter);
             var urls = BuildUrls(dates, filter.DateFilterType);
-            var tasks = urls.Select(url => GetAsync<NFLResponse>(url));
+            var tasks = urls.Select(url => GetAsync<NHLResponse>(url));
             var responses = await Task.WhenAll(tasks);
 
             var competitions = responses
                 .Where(r => r != null)
-                .SelectMany(r => r!.Events)
-                .SelectMany(e => e.Competitions)
+                .SelectMany(r => r!.GameWeek)
+                .SelectMany(r => r!.Games)
                 .ToList();
 
             return MapToSportEvents(competitions);
@@ -33,7 +33,7 @@ namespace consultor_jogos_de_esportes.Services.Basketball
             if (filterType == DateFilterType.Today || filterType == DateFilterType.SpecificDate)
             {
                 return new() {
-                    $"https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates={dates.StartDate:yyyyMMdd}"
+                    $"https://api-web.nhle.com/v1/schedule/{dates.StartDate:yyyy-MM-dd}"
                 };
             }
 
@@ -41,35 +41,28 @@ namespace consultor_jogos_de_esportes.Services.Basketball
 
             for (var data = dates.StartDate.Date; data <= dates.EndDate.Date; data = data.AddDays(1))
             {
-                urls.Add($"https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates={data:yyyyMMdd}");
+                urls.Add($"https://api-web.nhle.com/v1/schedule/{data:yyyy-MM-dd}");
             }
 
             return urls;
         }
 
-        private List<SportEventModel> MapToSportEvents(List<NFLCompetition> competitions)
+        private List<SportEventModel> MapToSportEvents(List<NHLGame> games)
         {
             var events = new List<SportEventModel>();
 
-            foreach (var competition in competitions)
+            foreach (var game in games)
             {
-                var home = competition.Competitors.FirstOrDefault(c => c.HomeAway == "home");
-
-                var away = competition.Competitors.FirstOrDefault(c => c.HomeAway == "away");
-
-                if (home == null || away == null)
-                    continue;
-
                 events.Add(new SportEventModel
                 {
-                    SportName = "Futebol Americano NFL",
-                    EventName = $"{home.Team.DisplayName} vs {away.Team.DisplayName}",
-                    BeginDate = DateTimeUtils.ToBrazilTime(competition.Date),
-                    EndDate = DateTimeUtils.ToBrazilTime(competition.Date).AddHours(3),
-                    Location = competition.Venue.Address.City,
+                    SportName = "Hoquei NHL",
+                    EventName = game.NameEvent,
+                    BeginDate = DateTimeUtils.ToBrazilTime(game.StartTimeUTC),
+                    EndDate = DateTimeUtils.ToBrazilTime(game.StartTimeUTC).AddHours(3),
+                    Location = game.Venue.Name,
                     HasTime = true,
-                    LeftImage = home.Team.Logo,
-                    RightImage = away.Team.Logo
+                    LeftImage = game.HomeTeam.Logo,
+                    RightImage = game.AwayTeam.Logo
                 });
             }
 

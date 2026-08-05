@@ -38,7 +38,7 @@ public class NHLGame
 
     public DateTime DateTimeEnd => StartTimeUTC.AddHours(3);
 
-    public string NameEvent => $"{AwayTeam.PlaceName.Default} {AwayTeam.CommonName.Default} x " + $"{HomeTeam.PlaceName.Default} {HomeTeam.CommonName.Default}";
+    public string NameEvent => $"{HomeTeam.PlaceName.Default} {HomeTeam.CommonName.Default} vs " + $"{AwayTeam.PlaceName.Default} {AwayTeam.CommonName.Default}";
 
     public string CountryName => "USA";
 }
@@ -55,7 +55,10 @@ public class NHLTeam
     public int Id { get; set; }
 
     [JsonPropertyName("abbrev")]
-    public string Abbrev { get; set; } = string.Empty;
+    public string Abbrev { get; set; } = string.Empty; 
+    
+    [JsonPropertyName("logo")]
+    public string Logo { get; set; } = string.Empty;
 
     [JsonPropertyName("commonName")]
     public NHLLocalizedName CommonName { get; set; } = new();

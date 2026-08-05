@@ -1,23 +1,23 @@
 ﻿using consultor_jogos_de_esportes.DTOs;
 using consultor_jogos_de_esportes.Interfaces;
 using consultor_jogos_de_esportes.Models;
-using consultor_jogos_de_esportes.Services.AmericanFootball;
+using consultor_jogos_de_esportes.Services.Hockey;
 
 namespace consultor_jogos_de_esportes.Services
 {
-    public class AmericanFootballService : ISportService
+    public class HockeyService : ISportService
     {
-        public string SportName => "american-football";
-        private readonly NFLService _nfl;
+        public string SportName => "hockey";
+        private readonly NHLService _nhl;
 
-        public AmericanFootballService(NFLService nfl)
+        public HockeyService(NHLService nfl)
         {
-            _nfl = nfl;
+            _nhl = nfl;
         }
 
         public async Task<List<SportEventModel>> GetEventsAsync(DTOFilterDates filter)
         {
-            var nfl = await _nfl.GetEventsAsync(filter);
+            var nfl = await _nhl.GetEventsAsync(filter);
 
             return nfl.OrderBy(x => x.BeginDate).ToList();
         }
