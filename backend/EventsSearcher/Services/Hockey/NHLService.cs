@@ -19,32 +19,37 @@ namespace consultor_jogos_de_esportes.Services.Hockey
             var tasks = urls.Select(url => GetAsync<NHLResponse>(url));
             var responses = await Task.WhenAll(tasks);
 
-            var competitions = responses
-                .Where(r => r != null)
-                .SelectMany(r => r!.GameWeek)
-                .SelectMany(r => r!.Games)
-                .ToList();
+            var games = responses.Where(r => r != null).SelectMany(r => r!.GameWeek).SelectMany(r => r!.Games);
 
-            return MapToSportEvents(competitions);
+            if (filter.DateFilterType == DateFilterType.SpecificDate)
+            {
+                var selectedDate = dates.StartDate.Date;
+                games = games.Where(g => DateTimeUtils.ToBrazilTime(g.StartTimeUTC).Date == selectedDate);
+            }
+
+            return MapToSportEvents(games.ToList());
         }
 
         private List<string> BuildUrls(DateRange dates, DateFilterType filterType)
         {
-            if (filterType == DateFilterType.Today || filterType == DateFilterType.SpecificDate)
+            switch (filterType)
             {
-                return new() {
-                    $"https://api-web.nhle.com/v1/schedule/{dates.StartDate:yyyy-MM-dd}"
-                };
+                case DateFilterType.Today:
+                case DateFilterType.SpecificDate:
+                    return new(){
+                        $"https://api-web.nhle.com/v1/schedule/{dates.StartDate:yyyy-MM-dd}"
+                    };
+
+                case DateFilterType.Week:
+                    var sunday = dates.StartDate.Date.AddDays(-(int)dates.StartDate.DayOfWeek);
+                    return new()
+                    {
+                        $"https://api-web.nhle.com/v1/schedule/{sunday:yyyy-MM-dd}"
+                    };
+
+                default:
+                    return [];
             }
-
-            var urls = new List<string>();
-
-            for (var data = dates.StartDate.Date; data <= dates.EndDate.Date; data = data.AddDays(1))
-            {
-                urls.Add($"https://api-web.nhle.com/v1/schedule/{data:yyyy-MM-dd}");
-            }
-
-            return urls;
         }
 
         private List<SportEventModel> MapToSportEvents(List<NHLGame> games)
