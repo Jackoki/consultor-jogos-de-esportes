@@ -5,11 +5,14 @@ using consultor_jogos_de_esportes.HealthChecks.Basketball;
 using consultor_jogos_de_esportes.HealthChecks.Chess;
 using consultor_jogos_de_esportes.HealthChecks.F1;
 using consultor_jogos_de_esportes.HealthChecks.Fighting;
+using consultor_jogos_de_esportes.HealthChecks.Hockey;
 using consultor_jogos_de_esportes.Interfaces;
 using consultor_jogos_de_esportes.Services;
+using consultor_jogos_de_esportes.Services.AmericanFootball;
 using consultor_jogos_de_esportes.Services.Baseball;
 using consultor_jogos_de_esportes.Services.Basketball;
 using consultor_jogos_de_esportes.Services.Fighting;
+using consultor_jogos_de_esportes.Services.Hockey;
 using consultor_jogos_de_esportes.Services.Motorsport;
 
 namespace consultor_jogos_de_esportes.Extensions;
@@ -25,6 +28,7 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<NPBService>();
         services.AddHttpClient<NBAService>();
         services.AddHttpClient<NFLService>();
+        services.AddHttpClient<NHLService>();
         services.AddHttpClient<UFCService>();
 
         services.AddScoped<MotorsportService>();
@@ -33,6 +37,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<BasketballService>();
         services.AddScoped<AmericanFootballService>();
         services.AddScoped<FightingService>();
+        services.AddScoped<HockeyService>();
 
         services.AddScoped<ISportService, MotorsportService>();
         services.AddScoped<ISportService, ChessService>();
@@ -40,6 +45,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISportService, BasketballService>();
         services.AddScoped<ISportService, AmericanFootballService>();
         services.AddScoped<ISportService, FightingService>();
+        services.AddScoped<ISportService, HockeyService>();
 
         return services;
     }
@@ -69,6 +75,9 @@ public static class ServiceCollectionExtensions
 
         services.AddHttpClient<UFCValidator>();
         services.AddScoped<IApiValidator, UFCValidator>();
+
+        services.AddHttpClient<NHLValidator>();
+        services.AddScoped<IApiValidator, NHLValidator>();
 
         services.AddScoped<ApiHealthManager>();
 
