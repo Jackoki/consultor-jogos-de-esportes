@@ -195,9 +195,15 @@ namespace consultor_jogos_de_esportes.Utils
                 return alpha2;
 
 
-            var country = Provider.GetCountryByName(countryName);
-
-            return country?.Alpha2Code.ToString();
+            try
+            {
+                var country = Provider.GetCountryByName(countryName);
+                return country?.Alpha2Code.ToString();
+            }
+            catch (UnknownCountryException)
+            {
+                return null;
+            }
         }
 
         public static string GetCountryName(string countryName)
@@ -214,11 +220,11 @@ namespace consultor_jogos_de_esportes.Utils
             try
             {
                 var country = Provider.GetCountryByName(countryName);
-                return TranslationProvider.GetCountryTranslatedName(country.Alpha2Code,LanguageCode.PT) ?? country.CommonName;
+                return country?.Alpha3Code.ToString();
             }
-            catch
+            catch (UnknownCountryException)
             {
-                return countryName;
+                return null;
             }
         }
     }

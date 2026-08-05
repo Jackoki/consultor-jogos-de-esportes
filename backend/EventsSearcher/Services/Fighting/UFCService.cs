@@ -71,8 +71,8 @@ namespace consultor_jogos_de_esportes.Services.Fighting
                     var leftCode = CountryHelper.GetAlpha2FromCountryName(fighter1.Flag.CountryName);
                     var rightCode = CountryHelper.GetAlpha2FromCountryName(fighter2.Flag.CountryName);
 
-                    var leftImage = leftCode != null ? $"{baseUrl}{CountryFlagHelper.GetCountryFlag(leftCode)}" : null;
-                    var rightImage = rightCode != null ? $"{baseUrl}{CountryFlagHelper.GetCountryFlag(rightCode)}": null;
+                    var leftImage = !string.IsNullOrWhiteSpace(leftCode) ? $"{baseUrl}{CountryFlagHelper.GetCountryFlag(leftCode)}" : null;
+                    var rightImage = !string.IsNullOrWhiteSpace(rightCode) ? $"{baseUrl}{CountryFlagHelper.GetCountryFlag(rightCode)}": null;
 
                     eventsSport.Add(new SportEventModel
                     {
@@ -82,8 +82,8 @@ namespace consultor_jogos_de_esportes.Services.Fighting
                         EndDate = DateTimeUtils.ToBrazilTime(competition.Date).AddHours(3),
                         Location = competition.Venue.Address.City,
                         HasTime = true,
-                        LeftImage = $"{baseUrl}{CountryFlagHelper.GetCountryFlag(CountryHelper.GetAlpha2FromCountryName(fighter1.Flag.CountryName))}",
-                        RightImage = $"{baseUrl}{CountryFlagHelper.GetCountryFlag(CountryHelper.GetAlpha2FromCountryName(fighter2.Flag.CountryName))}"
+                        LeftImage = leftImage,
+                        RightImage = rightImage
                     });
                 }
             }
