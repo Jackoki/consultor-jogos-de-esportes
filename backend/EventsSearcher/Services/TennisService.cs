@@ -17,9 +17,9 @@ namespace consultor_jogos_de_esportes.Services
 
         public async Task<List<SportEventModel>> GetEventsAsync(DTOFilterDates filter)
         {
-            var nba = await _atp.GetEventsAsync(filter);
+            var atp = await _atp.GetEventsAsync(filter);
 
-            return nba.OrderBy(x => x.BeginDate).ToList();
+            return atp.OrderBy(x => x.BeginDate).ToList();
         }
     }
 }

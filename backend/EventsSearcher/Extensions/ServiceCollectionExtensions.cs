@@ -14,6 +14,7 @@ using consultor_jogos_de_esportes.Services.Basketball;
 using consultor_jogos_de_esportes.Services.Fighting;
 using consultor_jogos_de_esportes.Services.Hockey;
 using consultor_jogos_de_esportes.Services.Motorsport;
+using consultor_jogos_de_esportes.Services.Tennis;
 
 namespace consultor_jogos_de_esportes.Extensions;
 
@@ -30,6 +31,7 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<NFLService>();
         services.AddHttpClient<NHLService>();
         services.AddHttpClient<UFCService>();
+        services.AddHttpClient<ATPService>();
 
         services.AddScoped<MotorsportService>();
         services.AddScoped<ChessService>();
@@ -38,6 +40,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<AmericanFootballService>();
         services.AddScoped<FightingService>();
         services.AddScoped<HockeyService>();
+        services.AddScoped<TennisService>();
 
         services.AddScoped<ISportService, MotorsportService>();
         services.AddScoped<ISportService, ChessService>();
@@ -46,6 +49,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISportService, AmericanFootballService>();
         services.AddScoped<ISportService, FightingService>();
         services.AddScoped<ISportService, HockeyService>();
+        services.AddScoped<ISportService, TennisService>();
 
         return services;
     }

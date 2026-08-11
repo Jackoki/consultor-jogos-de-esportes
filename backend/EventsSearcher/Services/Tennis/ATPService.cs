@@ -27,11 +27,9 @@ namespace consultor_jogos_de_esportes.Services.Tennis
             var competitions = responses
                 .Where(r => r != null)
                 .SelectMany(r => r!.Events)
-                .SelectMany(e => e.Groupings)
-                .SelectMany(g => g.Competitions)
                 .ToList();
 
-            return MapToSportEvents(competitions);
+            return MapToSportEvents(competitions, dates);
         }
 
         private List<string> BuildUrls(DateRange dates, DateFilterType filterType)
@@ -52,42 +50,55 @@ namespace consultor_jogos_de_esportes.Services.Tennis
             return urls;
         }
 
-        private List<SportEventModel> MapToSportEvents(List<ATPCompetition> competitions)
+        private List<SportEventModel> MapToSportEvents(List<ATPModel> events, DateRange dates)
         {
             var request = _httpContextAccessor.HttpContext!.Request;
             var baseUrl = $"{request.Scheme}://{request.Host}";
-            var events = new List<SportEventModel>();
+            var eventsSport = new List<SportEventModel>();
 
-            foreach (var competition in competitions)
+            foreach (var atpEvent in events)
             {
-                var player1 = competition.Competitors.ElementAtOrDefault(0);
-                var player2 = competition.Competitors.ElementAtOrDefault(1);
-
-                if (player1 == null || player2 == null)
-                    continue;
-
-                var beginDate = DateTimeUtils.ToBrazilTime(competition.Date);
-
-                var leftCode = CountryHelper.GetAlpha2FromCountryName(player1.Athlete.Flag.FlagName);
-                var rightCode = CountryHelper.GetAlpha2FromCountryName(player2.Athlete.Flag.FlagName);
-
-                var leftImage = !string.IsNullOrWhiteSpace(leftCode) ? $"{baseUrl}{CountryFlagHelper.GetCountryFlag(leftCode)}" : null;
-                var rightImage = !string.IsNullOrWhiteSpace(rightCode) ? $"{baseUrl}{CountryFlagHelper.GetCountryFlag(rightCode)}" : null;
-
-                events.Add(new SportEventModel
+                foreach (var competition in atpEvent.Groupings)
                 {
-                    SportName = "Tênis ATP",
-                    EventName = $"{player1.Athlete.DisplayName} vs {player2.Athlete.DisplayName}",
-                    BeginDate = beginDate,
-                    EndDate = beginDate.AddHours(3),
-                    Location = competition.Venue.Name,
-                    HasTime = true,
-                    LeftImage = leftImage,
-                    RightImage = rightImage
-                });
-            }
+                    foreach(var match in competition.Competitions)
+                    {
+                        var beginDate = DateTimeUtils.ToBrazilTime(match.Date);
 
-            return events;
+                        if (beginDate.Date < dates.StartDate.Date || beginDate.Date > dates.EndDate.Date.AddDays(-1))
+                        {
+                            continue;
+                        }
+
+                        var player1 = match.Competitors.ElementAtOrDefault(0);
+                        var player2 = match.Competitors.ElementAtOrDefault(1);
+
+                        if (player1 == null || player2 == null)
+                            continue;
+
+                        var leftCode = CountryHelper.GetAlpha2FromCountryName(player1.Athlete.Flag.FlagName);
+                        var rightCode = CountryHelper.GetAlpha2FromCountryName(player2.Athlete.Flag.FlagName);
+
+                        var leftImage = !string.IsNullOrWhiteSpace(leftCode) ? $"{baseUrl}{CountryFlagHelper.GetCountryFlag(leftCode)}" : null;
+                        var rightImage = !string.IsNullOrWhiteSpace(rightCode) ? $"{baseUrl}{CountryFlagHelper.GetCountryFlag(rightCode)}" : null;
+
+                        string player1Name = string.IsNullOrEmpty(player1.Athlete.DisplayName) ? "TBD" : player1.Athlete.DisplayName;
+                        string player2Name = string.IsNullOrEmpty(player2.Athlete.DisplayName) ? "TBD" : player2.Athlete.DisplayName;
+
+                        eventsSport.Add(new SportEventModel
+                        {
+                            SportName = "Tênis ATP: " + atpEvent.EventName,
+                            EventName = competition.Grouping.DisplayName + " - " + match.Round.DisplayName + ":\n " + $"{player1Name} vs {player2Name}",
+                            BeginDate = beginDate,
+                            EndDate = beginDate.AddHours(3),
+                            Location = match.Venue.Name,
+                            HasTime = true,
+                            LeftImage = leftImage,
+                            RightImage = rightImage
+                        });
+                    }
+                }
+            }
+            return eventsSport;
         }
     }
 }

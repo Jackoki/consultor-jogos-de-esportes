@@ -7,6 +7,10 @@
     transition: 0.2s;
 }
 
+.event-card h3 {
+    white-space: pre-line;
+}
+
 .event-card:hover {
     border-color: #646cff;
     transform: translateY(-2px);
