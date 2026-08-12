@@ -42,6 +42,12 @@ export const sports = [
         leagues: [
             { name: "UFC", path: "/fighting/ufc" }
         ]
+    },    {
+        name: "Tênis",
+        path: "/tennis",
+        leagues: [
+            { name: "ATP-500", path: "/tennis/atp" }
+        ]
     },
     {
         name: "Xadrez",
