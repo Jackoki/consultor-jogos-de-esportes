@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using Nager.Country;
 using Nager.Country.Translation;
 
@@ -17,6 +18,8 @@ namespace consultor_jogos_de_esportes.Utils
             { "Italy", "Itália" },
             { "United States", "Estados Unidos" },
             { "USA", "Estados Unidos" },
+            { "Korea", "Coreia do Sul" },
+            { "Great Britain", "Reino Unido" },
             { "United Kingdom", "Reino Unido" },
             { "Netherlands", "Países Baixos" },
             { "Saudi Arabia", "Arábia Saudita" },
@@ -131,7 +134,9 @@ namespace consultor_jogos_de_esportes.Utils
             { "England", "GB-ENG" },
             { "Scotland", "GB-SCT" },
             { "Wales", "GB-WLS" },
-            { "Northern Ireland", "GB-NIR" }
+            { "Northern Ireland", "GB-NIR" },
+            { "Great Britain", "GB" },
+            { "Korea", "SK" }
         };
 
         public static string? GetCountryNameFromAlpha3(string? countryCode)
@@ -202,6 +207,7 @@ namespace consultor_jogos_de_esportes.Utils
             }
             catch (UnknownCountryException)
             {
+                Console.WriteLine(countryName);
                 return null;
             }
         }
@@ -224,6 +230,7 @@ namespace consultor_jogos_de_esportes.Utils
             }
             catch (UnknownCountryException)
             {
+                Console.WriteLine(countryName);
                 return null;
             }
         }

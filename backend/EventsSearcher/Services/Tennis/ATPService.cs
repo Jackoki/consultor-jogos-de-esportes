@@ -3,7 +3,6 @@ using consultor_jogos_de_esportes.Models;
 using consultor_jogos_de_esportes.Models.Tennis;
 using consultor_jogos_de_esportes.Utils;
 using consultor_jogos_de_esportes.Utils.LogoHelper;
-using Microsoft.AspNetCore.Http;
 
 namespace consultor_jogos_de_esportes.Services.Tennis
 {

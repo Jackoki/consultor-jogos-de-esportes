@@ -1,14 +1,14 @@
 ﻿using System.Text.Json;
-using consultor_jogos_de_esportes.Models.Baseball;
+using consultor_jogos_de_esportes.Models.Tennis;
 
 namespace consultor_jogos_de_esportes.HealthChecks.Baseball
 {
-    public class NCAAValidator : IApiValidator
+    public class ATPValidator : IApiValidator
     {
         private readonly HttpClient _httpClient;
-        public string Name => "NCAA Beisebol";
+        public string Name => "ATP";
 
-        public NCAAValidator(HttpClient httpClient)
+        public ATPValidator(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
@@ -17,7 +17,7 @@ namespace consultor_jogos_de_esportes.HealthChecks.Baseball
         {
             try
             {
-                var response = await _httpClient.GetAsync("https://ncaa-api.henrygd.me/scoreboard/baseball/d1/2026/07/21/all-conf");
+                var response = await _httpClient.GetAsync("https://site.api.espn.com/apis/site/v2/sports/tennis/atp/scoreboard?dates=20260813");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -31,7 +31,7 @@ namespace consultor_jogos_de_esportes.HealthChecks.Baseball
 
                 var responseJson = await response.Content.ReadAsStringAsync();
 
-                var result = JsonSerializer.Deserialize<MLBResponse>(responseJson);
+                var result = JsonSerializer.Deserialize<ATPResponse>(responseJson);
 
                 if (result == null)
                 {

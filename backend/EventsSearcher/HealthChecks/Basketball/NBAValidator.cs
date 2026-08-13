@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using consultor_jogos_de_esportes.Models;
 using consultor_jogos_de_esportes.Models.Basketball;
 
 namespace consultor_jogos_de_esportes.HealthChecks.Basketball

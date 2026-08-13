@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using System.Text;
-using consultor_jogos_de_esportes.Models;
 using consultor_jogos_de_esportes.Models.Baseball.NPB;
 
 namespace consultor_jogos_de_esportes.HealthChecks.Baseball
