@@ -50,6 +50,16 @@ export const sports = [
         ]
     },
     {
+        name: "Wrestling",
+        path: "/wrestling",
+        leagues: [
+            { name: "AEW", path: "/wrestling/aew" },
+            { name: "NJPW", path: "/wrestling/njpw" },
+            { name: "TNA", path: "/wrestling/tna" },
+            { name: "WWE", path: "/wrestling/wwe" }
+        ]
+    },
+    {
         name: "Xadrez",
         path: "/chess",
         leagues: []
