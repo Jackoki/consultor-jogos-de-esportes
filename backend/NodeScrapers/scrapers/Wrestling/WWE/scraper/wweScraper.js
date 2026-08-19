@@ -1,147 +1,210 @@
-import axios from "axios";
+import { chromium } from "playwright";
 import * as cheerio from "cheerio";
-import { getAlpha2FromCountryName, getCountryNameFromAlpha3 } from "../../../utils/countryHelper.js";
+import { getAlpha2FromCountryName } from "../../../../utils/countryHelper.js";
 
-const FIDE_URL = "https://calendar.fide.com/calendar_server.php";
-const BASE_URL = "https://calendar.fide.com";
+const CAGEMATCH_URL = "https://www.cagematch.net/";
 
-//https://www.cagematch.net/?id=1&view=search&sEventName=&sPromotion=1&sDateFromDay=01&sDateFromMonth=01&sDateFromYear=2021&sDateTillDay=31&sDateTillMonth=12&sDateTillYear=2026&sRegion=&sEventType=&sLocation=&sArena=&sAny=
-
-export async function scrapeFideCalendar({ date_start, date_end }) {
+export async function scrapeWweCalendar({ date_start, date_end }) {
     if (!date_start || !date_end) {
         throw new Error("Datas da filtragem são obrigatórias.");
     }
-    
-    date_start = new Date(date_start);
-    date_end = new Date(date_end);
 
-    const years = getYearsBetween(date_start, date_end);
+    const startDate = new Date(date_start);
+    const endDate = new Date(date_end);
 
-    const events = [];
-
-    for (const year of years) {
-        const html = await fetchCalendarYear(year);
-        events.push(...parseCalendar(html, year));
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        throw new Error("Datas inválidas.");
     }
 
-    return events.filter(event =>
-        event.date_start <= date_end && event.date_end >= date_start
-    );
-}
-
-function getYearsBetween(date_start, date_end) {
-    const years = [];
-
-    for (let year = date_start.getFullYear(); year <= date_end.getFullYear(); year++) {
-        years.push(year);
+    if (startDate > endDate) {
+        throw new Error("A data inicial não pode ser maior que a data final.");
     }
 
-    return years;
-}
+    const html = await fetchEvents(startDate, endDate);
+    const events = parseEvents(html);
 
-async function fetchCalendarYear(year) {
-    const body = new URLSearchParams();
-
-    body.append("country", "all");
-    body.append("name_filter", "");
-    body.append("event_type", "all");
-    body.append("page", year);
-    body.append("cat_filter[]", "wfe");
-    body.append("cat_filter[]", "wte");
-    body.append("cat_cont[]", "0");
-    body.append("id", "");
-    body.append("show", "showYear");
-
-    const { data } = await axios.post(FIDE_URL, body, {
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            "X-Requested-With": "XMLHttpRequest",
-            "Referer": `https://calendar.fide.com/majorcalendar.php?page=${year}&show=showYear`,
-            "User-Agent": "Mozilla/5.0"
+    const filteredEvents = events.filter(event => {
+        if (!event.date_start) {
+            return false;
         }
+
+        if (!event.date_end) {
+            return false;
+        }
+
+        return (event.date_start <= endDate &&event.date_end >= startDate);
     });
 
-    return data;
+    return filteredEvents;
 }
 
-function parseCalendar(html, year) {
+async function fetchEvents(dateStart, dateEnd) {
+    const params = new URLSearchParams({
+        id: "1",
+        view: "search",
+        sEventName: "",
+        sPromotion: "1",
+        sDateFromDay: String(dateStart.getDate()).padStart(2, "0"),
+        sDateFromMonth: String(dateStart.getMonth() + 1).padStart(2, "0"),
+        sDateFromYear: String(dateStart.getFullYear()),
+        sDateTillDay: String(dateEnd.getDate()).padStart(2, "0"),
+        sDateTillMonth: String(dateEnd.getMonth() + 1).padStart(2, "0"),
+        sDateTillYear: String(dateEnd.getFullYear()),
+        sRegion: "",
+        sEventType: "",
+        sLocation: "",
+        sArena: "",
+        sAny: ""
+    });
+
+    const url =`${CAGEMATCH_URL}?${params.toString()}`;
+
+    const browser = await chromium.launch({
+        headless: false
+    });
+
+    try {
+        const page = await browser.newPage();
+
+        await page.goto(url, {
+            waitUntil: "domcontentloaded",
+            timeout: 60000
+        });
+
+        await page.waitForTimeout(5000);
+        const html = await page.content();
+        const $ = cheerio.load(html);
+
+        const eventLinks = $("a")
+            .filter((_, element) => {
+                const href =
+                    $(element).attr("href");
+
+                return (
+                    href &&
+                    href.includes("id=1&nr=")
+                );
+            });
+
+        const bodyText = $("body").text();
+        const dateMatches = bodyText.match(/\b\d{2}\.\d{2}\.\d{4}\b/g);
+        return html;
+    } 
+    
+    finally {
+        await browser.close();
+    }
+}
+
+function parseEvents(html) {
     const $ = cheerio.load(html);
-
     const events = [];
+    const eventLinks = $("a")
+        .filter((_, element) => {
+            const href = $(element).attr("href");
 
-    $(".border-info").each((_, el) => {
-        const anchor = $(el).find(".session-title a");
+            return (
+                href &&
+                /^(\?id=1&nr=\d+)$/.test(href)
+            );
+        });
 
-        const name = anchor.text().trim();
+    eventLinks.each((_, element) => {
+        const eventAnchor = $(element);
+        const row = eventAnchor.closest("tr");
 
-        if (!name)
+        if (!row.length) {
             return;
-
-        let link = anchor.attr("href");
-
-        if (link && !link.startsWith("http")) {
-            link = `${BASE_URL}/${link}`;
         }
 
-        const time = $(el)
-            .find(".session-time")
-            .first()
-            .text()
-            .trim();
+        const columns = row.find("td");
+        if (columns.length < 4) {
+            return;
+        }
 
-        const info = parseEventInfo(time, year);
+        const dateText = $(columns[1]).text().replace(/[\u200B-\u200D\uFEFF]/g, "").replace(/\s+/g, " ").trim();
+        const name = eventAnchor.text().replace(/[\u200B-\u200D\uFEFF]/g, "").replace(/\s+/g, " ").trim();
+        const locationText = $(columns[3]).text().replace(/[\u200B-\u200D\uFEFF]/g, "").replace(/\s+/g, " ").trim();
+        const date = parseDate(dateText);
+        const location = parseLocation(locationText);
+        let link = eventAnchor.attr("href");
 
-        events.push({name, link, date_start: info.date_start, date_end: info.date_end, country_name: info.country, year: year, country_code_alpha2: info.country_code_alpha2});
+        if (link && !link.startsWith("http")) {
+            link = new URL(link, CAGEMATCH_URL).href;
+        }
+
+        events.push({
+            name,
+            link,
+            date_start: date,
+            date_end: date,
+            city: location.city,
+            country_name: location.country
+        });
     });
 
     return events;
 }
 
-function parseEventInfo(text, year) {
-    const match = text.match(/(\d{1,2}) (\w{3}) - (\d{1,2}) (\w{3})\s*\/\s*(.+?)\s*\(([^)]+)\)/);
+function parseEventInfo(dateText, locationText) {
+    const date = parseDate(dateText);
+    const location = parseLocation(locationText);
+
+    return {
+        date_start: date,
+        date_end: date,
+        city: location.city,
+        country: location.country
+    };
+}
+
+function parseDate(text) {
+    if (!text) {
+        return null;
+    }
+
+    const cleanText = text.replace(/[\u200B-\u200D\uFEFF]/g, "").replace(/\s+/g, " ").trim();
+    const match = cleanText.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
 
     if (!match) {
+        return null;
+    }
+
+    const day = Number(match[1]);
+    const month = Number(match[2]) - 1;
+    const year = Number(match[3]);
+
+    const date = new Date(year, month, day);
+
+    if (date.getFullYear() !== year || date.getMonth() !== month || date.getDate() !== day) {
+        return null;
+    }
+
+    return date;
+}
+
+function parseLocation(text) {
+    if (!text) {
         return {
-            date_start: null,
-            date_end: null,
             city: null,
             country: null
         };
     }
 
-    const months = {
-        Jan: 0,
-        Feb: 1,
-        Mar: 2,
-        Apr: 3,
-        May: 4,
-        Jun: 5,
-        Jul: 6,
-        Aug: 7,
-        Sep: 8,
-        Oct: 9,
-        Nov: 10,
-        Dec: 11
-    };
+    const parts = text.split(",").map(part => part.trim()).filter(Boolean);
 
-    const startDay = Number(match[1]);
-    const startMonth = months[match[2]];
-
-    const endDay = Number(match[3]);
-    const endMonth = months[match[4]];
-
-    let startYear = year;
-    let endYear = year;
-
-    if (endMonth < startMonth) {
-        endYear++;
+    if (parts.length < 2) {
+        return {
+            city: text,
+            country: null
+        };
     }
 
+    const city = parts[0];
+    const country = parts[parts.length - 1];
+
     return {
-        date_start: new Date(startYear, startMonth, startDay),
-        date_end: new Date(endYear, endMonth, endDay),
-        city: match[5].trim(),
-        country: getCountryNameFromAlpha3(match[6]),
-        country_code_alpha2: getAlpha2FromCountryName(getCountryNameFromAlpha3(match[6]))
+        city,
+        country
     };
 }

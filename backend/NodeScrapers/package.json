@@ -15,7 +15,8 @@
     "cheerio": "^1.2.0",
     "dayjs": "^1.11.21",
     "express": "^5.2.1",
-    "i18n-iso-countries": "^7.14.0"
+    "i18n-iso-countries": "^7.14.0",
+    "playwright": "^1.62.1"
   },
   "devDependencies": {
     "jest": "^30.4.2",
