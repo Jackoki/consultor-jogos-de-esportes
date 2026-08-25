@@ -7,9 +7,9 @@ namespace consultor_jogos_de_esportes.Services
     public class WrestlingService : ISportService
     {
         public string SportName => "wrestling";
-        private readonly WweService _wwe;
+        private readonly WWEService _wwe;
 
-        public WrestlingService(WweService wwe)
+        public WrestlingService(WWEService wwe)
         {
             _wwe = wwe;
         }

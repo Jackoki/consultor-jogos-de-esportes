@@ -32,6 +32,7 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<NHLService>();
         services.AddHttpClient<UFCService>();
         services.AddHttpClient<ATPService>();
+        services.AddHttpClient<WWEService>();
 
         services.AddScoped<MotorsportService>();
         services.AddScoped<ChessService>();
@@ -41,6 +42,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<FightingService>();
         services.AddScoped<HockeyService>();
         services.AddScoped<TennisService>();
+        services.AddScoped<WrestlingService>();
 
         services.AddScoped<ISportService, MotorsportService>();
         services.AddScoped<ISportService, ChessService>();
@@ -50,6 +52,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISportService, FightingService>();
         services.AddScoped<ISportService, HockeyService>();
         services.AddScoped<ISportService, TennisService>();
+        services.AddScoped<ISportService, WrestlingService>();
 
         return services;
     }

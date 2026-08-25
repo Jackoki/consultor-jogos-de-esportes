@@ -8,13 +8,13 @@ using consultor_jogos_de_esportes.Utils.LogoHelper;
 
 namespace consultor_jogos_de_esportes.Services
 {
-    public class WweService : ISportService
+    public class WWEService : ISportService
     {
         public string SportName => "wwe";
         private readonly HttpClient _httpClient;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public WweService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
+        public WWEService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
             _httpContextAccessor = httpContextAccessor;
@@ -24,9 +24,9 @@ namespace consultor_jogos_de_esportes.Services
         {
             DateRange dates = GetDatesFilter(filter);
 
-            var chessEvents = await FetchWweEvents(dates);
+            var wweEvents = await FetchWweEvents(dates);
 
-            return MapToSportEvents(chessEvents);
+            return MapToSportEvents(wweEvents);
         }
 
         private async Task<List<WrestlingModel>> FetchWweEvents(DateRange dates)
@@ -41,7 +41,7 @@ namespace consultor_jogos_de_esportes.Services
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("http://localhost:3000/wrestling/events", content);
+            var response = await _httpClient.PostAsync("http://localhost:3000/wwe/events", content);
 
             if (!response.IsSuccessStatusCode)
                 return new List<WrestlingModel>();
