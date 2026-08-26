@@ -7,8 +7,8 @@ namespace consultor_jogos_de_esportes.Models
         [JsonPropertyName("name")]
         public string NameEvent { get; set; }
 
-        [JsonPropertyName("country_name")]
-        public string CountryName { get; set; }
+        [JsonPropertyName("image")]
+        public string CentralImage { get; set; }
 
         [JsonPropertyName("date_start")]
         public DateTime DateTimeStart { get; set; }
@@ -16,10 +16,13 @@ namespace consultor_jogos_de_esportes.Models
         [JsonPropertyName("date_end")]
         public DateTime DateTimeEnd { get; set; }
 
-        [JsonPropertyName("year")]
-        public int Year { get; set; }
+        [JsonPropertyName("city")]
+        public string City { get; set; }
 
-        [JsonPropertyName("country_code_alpha2")]
-        public string CountryCodeAlpha2 { get; set; }
+        [JsonPropertyName("state")]
+        public string State { get; set; }
+
+        [JsonPropertyName("country_name")]
+        public string CountryName { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 import { chromium } from "playwright";
 import * as cheerio from "cheerio";
-import { getAlpha2FromCountryName } from "../../../../utils/countryHelper.js";
 
 const CAGEMATCH_URL = "https://www.cagematch.net/";
 
@@ -127,6 +126,14 @@ function parseEvents(html) {
         const locationText = $(columns[3]).text().replace(/[\u200B-\u200D\uFEFF]/g, "").replace(/\s+/g, " ").trim();
         const date = parseDate(dateText);
         const location = parseLocation(locationText);
+
+        const imageElement = row.find("img.ImagePromotionLogoMini");
+        let image = imageElement.attr("src");
+
+        if (image && !image.startsWith("http")) {
+            image = new URL(image, CAGEMATCH_URL).href;
+        }
+
         let link = eventAnchor.attr("href");
 
         if (link && !link.startsWith("http")) {
@@ -136,9 +143,11 @@ function parseEvents(html) {
         events.push({
             name,
             link,
+            image: image,
             date_start: date,
             date_end: date,
             city: location.city,
+            state: location.state,
             country_name: location.country
         });
     });
@@ -185,26 +194,34 @@ function parseDate(text) {
 
 function parseLocation(text) {
     if (!text) {
-        return {
+        return {            
             city: null,
+            state: null,
             country: null
         };
     }
 
     const parts = text.split(",").map(part => part.trim()).filter(Boolean);
 
-    if (parts.length < 2) {
+    if (parts.length === 1) {
         return {
-            city: text,
+            city: parts[0],
+            state: null,
             country: null
         };
     }
 
-    const city = parts[0];
-    const country = parts[parts.length - 1];
+    if (parts.length === 2) {
+        return {
+            city: parts[0],
+            state: null,
+            country: parts[1]
+        };
+    }
 
     return {
-        city,
-        country
+        city: parts[0],
+        state: parts.slice(1, -1).join(", "),
+        country: parts[parts.length - 1]
     };
 }

@@ -62,8 +62,8 @@ namespace consultor_jogos_de_esportes.Services
                 EventName = e.NameEvent,
                 BeginDate = DateTimeUtils.ToBrazilTime(e.DateTimeStart),
                 EndDate = DateTimeUtils.ToBrazilTime(e.DateTimeEnd),
-                Location = e.CountryName,
-                CentralImage = $"{baseUrl}{CountryFlagHelper.GetCountryFlag(e.CountryCodeAlpha2)}",
+                Location = string.Join(", ", new[]{ e.City, e.State, e.CountryName }.Where(x => !string.IsNullOrWhiteSpace(x))),
+                CentralImage = e.CentralImage,
                 HasTime = false
             }).ToList();
         }
